@@ -7,7 +7,6 @@ class GraphicsEngine
 {
 public:
 	GraphicsEngine();
-	~GraphicsEngine();
 
 	// GraphicsEngine Loop Functions
 	/*

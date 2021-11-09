@@ -136,6 +136,7 @@
     <ClCompile Include="src\Actors\CameraActor.cpp" />
     <ClCompile Include="src\Components\Component.cpp" />
     <ClCompile Include="src\Components\MoveComponent.cpp" />
+    <ClCompile Include="src\Components\SpriteComponent.cpp" />
     <ClCompile Include="src\Math.cpp" />
     <ClCompile Include="src\Actors\Actor.cpp" />
     <ClCompile Include="src\GraphicsEngine.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="src\Actors\CameraActor.h" />
     <ClInclude Include="src\Components\Component.h" />
     <ClInclude Include="src\Components\MoveComponent.h" />
+    <ClInclude Include="src\Components\SpriteComponent.h" />
     <ClInclude Include="src\Math.h" />
     <ClInclude Include="src\Actors\Actor.h" />
     <ClInclude Include="src\GraphicsEngine.h" />

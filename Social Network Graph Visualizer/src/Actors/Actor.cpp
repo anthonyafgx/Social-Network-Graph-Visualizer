@@ -1,10 +1,12 @@
 #include "Actor.h"
+#include "../Components/Component.h"
 #include "../GraphicsEngine.h"
 
 Actor::Actor(GraphicsEngine* graphics) : mGraphicsEngine(graphics), mScale(1.0f), mRotation(0.0f)
 {
 	// Add itself to the mActors vector
 	mGraphicsEngine->AddActor(this);
+
 #ifdef DEBUG_ACTOR
 	printf("DEBUG: Actor Created!\n");
 #endif // DEBUG_ACTOR
@@ -23,6 +25,7 @@ Actor::~Actor()
 
 	// Remove itself from mActors vector
 	mGraphicsEngine->RemoveActor(this);
+
 #ifdef DEBUG_ACTOR
 	printf("DEBUG: Actor Destroyed!\n");
 #endif // DEBUG_ACTOR
