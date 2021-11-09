@@ -3,22 +3,22 @@
 #include <vector>
 #include <unordered_map>
 
-class Game
+class GraphicsEngine
 {
 public:
-	Game();
-	~Game();
+	GraphicsEngine();
+	~GraphicsEngine();
 
-	// Game Loop Functions
+	// GraphicsEngine Loop Functions
 	/*
-	* Initializes the Game Engine
+	* Initializes the GraphicsEngine Engine
 	* @return Bool Value indicating success
 	*/
 	bool Initialize();
 	void RunLoop();
 	void Shutdown();
 
-	// Game Functions
+	// GraphicsEngine Functions
 	void AddActor(class Actor* actor);
 	void RemoveActor(class Actor* actor);
 
@@ -47,7 +47,7 @@ private:
 	std::vector<class SpriteComponent*> mSprites;				//!< Vector containing pointers to each Sprite (sorted by drawing order)
 	std::unordered_map<std::string, SDL_Texture*> mTextures;	//!< key = path ; value = texture pointer
 
-	// Game info
+	// GraphicsEngine info
 	bool mIsRunning;											//!< Indicates if game should continue run
 	bool mUpdatingActors;										//!< Indicates if actors are currently being updated
 

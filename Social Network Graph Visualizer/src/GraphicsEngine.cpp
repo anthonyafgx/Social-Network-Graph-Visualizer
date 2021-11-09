@@ -1,16 +1,16 @@
-#include "Game.h"
+#include "GraphicsEngine.h"
 #include <SDL.h>
 #include <SDL_image.h>
 
-Game::Game() : 
+GraphicsEngine::GraphicsEngine() : 
 	mIsRunning(true), 
 	mWindow(nullptr), 
 	mWindowWidth(1280), 
 	mWindowHeight(720) { ; }
 
-// Game Loop Functions
+// GraphicsEngine Loop Functions
 
-bool Game::Initialize()
+bool GraphicsEngine::Initialize()
 {
 	// Initialization
 	int init = SDL_Init(SDL_INIT_VIDEO);
@@ -23,7 +23,7 @@ bool Game::Initialize()
 
 	// Create Window
 	mWindow = SDL_CreateWindow(
-		"Dev Game - anthonyafgx studios",
+		"Dev GraphicsEngine - anthonyafgx studios",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		mWindowWidth,
@@ -65,7 +65,7 @@ bool Game::Initialize()
 	return true;
 }
 
-void Game::RunLoop()
+void GraphicsEngine::RunLoop()
 {
 	while (mIsRunning)
 	{
@@ -75,7 +75,7 @@ void Game::RunLoop()
 	}
 }
 
-void Game::Shutdown()
+void GraphicsEngine::Shutdown()
 {
 	UnloadData();
 
@@ -85,9 +85,9 @@ void Game::Shutdown()
 	SDL_Quit();
 }
 
-// Game Process Functions
+// GraphicsEngine Process Functions
 
-void Game::AddActor(Actor* actor)
+void GraphicsEngine::AddActor(Actor* actor)
 {
 	if (mUpdatingActors)
 	{	// add to queue
@@ -99,7 +99,7 @@ void Game::AddActor(Actor* actor)
 	}
 }
 
-void Game::RemoveActor(Actor* actor)
+void GraphicsEngine::RemoveActor(Actor* actor)
 {
 	auto itr = std::find(mActors.begin(), mActors.end(), actor);
 	if (itr != mActors.end())
@@ -108,7 +108,7 @@ void Game::RemoveActor(Actor* actor)
 	}
 }
 
-void Game::AddSprite(SpriteComponent* sprite)
+void GraphicsEngine::AddSprite(SpriteComponent* sprite)
 {
 	int myDrawOrder = sprite->GetDrawOrder();
 
@@ -124,7 +124,7 @@ void Game::AddSprite(SpriteComponent* sprite)
 	mSprites.insert(itr, sprite);
 }
 
-void Game::RemoveSprite(SpriteComponent* sprite)
+void GraphicsEngine::RemoveSprite(SpriteComponent* sprite)
 {
 	auto itr = std::find(mSprites.begin(), mSprites.end(), sprite);
 	if (itr != mSprites.end())
@@ -135,7 +135,7 @@ void Game::RemoveSprite(SpriteComponent* sprite)
 
 // Getters / Setters
 
-SDL_Texture* Game::GetTexture(std::string path)
+SDL_Texture* GraphicsEngine::GetTexture(std::string path)
 {
 	// Pointer that will be returned
 	SDL_Texture* tex = nullptr;
@@ -194,28 +194,28 @@ SDL_Texture* Game::GetTexture(std::string path)
 
 // Loop Related Methods
 
-void Game::ProcessInput()
+void GraphicsEngine::ProcessInput()
 {
 	;
 }
 
-void Game::UpdateGame()
+void GraphicsEngine::UpdateGame()
 {
 	;
 }
 
-void Game::GenerateOutput()
+void GraphicsEngine::GenerateOutput()
 {
 	;
 }
 
 // Initialize / Shutdown Related Methods
-void Game::LoadData()
+void GraphicsEngine::LoadData()
 {
 	;
 }
 
-void Game::UnloadData()
+void GraphicsEngine::UnloadData()
 {
 	;
 }

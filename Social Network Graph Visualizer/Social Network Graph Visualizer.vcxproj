@@ -132,11 +132,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Components\CameraComponent.cpp" />
+    <ClCompile Include="src\Actors\CameraActor.cpp" />
+    <ClCompile Include="src\Components\Component.cpp" />
+    <ClCompile Include="src\Components\MoveComponent.cpp" />
+    <ClCompile Include="src\Math.cpp" />
+    <ClCompile Include="src\Actors\Actor.cpp" />
+    <ClCompile Include="src\GraphicsEngine.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\Components\CameraComponent.h" />
+    <ClInclude Include="src\Actors\CameraActor.h" />
+    <ClInclude Include="src\Components\Component.h" />
+    <ClInclude Include="src\Components\MoveComponent.h" />
+    <ClInclude Include="src\Math.h" />
+    <ClInclude Include="src\Actors\Actor.h" />
+    <ClInclude Include="src\GraphicsEngine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
