@@ -1,4 +1,5 @@
 #pragma once
+#include <limits>
 
 namespace Math
 { 
@@ -8,17 +9,17 @@ namespace Math
 	const float Infinity = std::numeric_limits<float>::infinity();
 	const float NegInfinity = -std::numeric_limits<float>::infinity();
 
-	float ToRadians(float degrees)
+	inline float ToRadians(float degrees)
 	{
 		return degrees * Pi / 180.0f;
 	}
 
-	float ToDegrees(float radians)
+	inline float ToDegrees(float radians)
 	{
 		return radians * 180.0f / Pi;
 	}
 
-	bool NearZero(float val)
+	inline bool NearZero(float val)
 	{
 		float epsilon = 0.001f;		// small value
 		
@@ -38,6 +39,35 @@ template<typename T> class Vector2D
 public:
 	Vector2D() : x(0), y(0) { ; }
 	explicit Vector2D(T x, T y) : x(x), y(y) { ; }
+
+	friend Vector2D<T> operator+ (const Vector2D<T>& a, const Vector2D<T>& b)
+	{
+		return Vector2D<T>(a.x + b.x, a.y + b.y);
+	}
+
+	friend Vector2D<T> operator- (const Vector2D<T>& a, const Vector2D<T>& b)
+	{
+		return Vector2D<T>(a.x - b.x, a.y - b.y);
+	}
+
+	friend Vector2D<T> operator* (const Vector2D<T>& vec, const T scalar)
+	{
+		return Vector2D<T>(vec.x * scalar, vec.y * scalar);
+	}
+
+	Vector2D<T>& operator+= (const Vector2D<T>& right)
+	{
+		x += right.x;
+		y += right.y;
+		return *this;
+	}
+
+	Vector2D<T>& operator-= (const Vector2D<T>& right)
+	{
+		x -= right.x;
+		y -= right.y;
+		return *this;
+	}
 
 public:
 	T x;

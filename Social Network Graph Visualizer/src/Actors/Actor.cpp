@@ -100,7 +100,14 @@ void Actor::RemoveComponent(Component* comp)
 	}
 }
 
-const Vector2D& Actor::GetFowardVector() const
+const Vector2D<float>& Actor::GetFowardVector() const
 {
-	return Vector2D{ cosf(mRotation), -sinf(mRotation) };
+	return Vector2D<float>{ cosf(mRotation), -sinf(mRotation) };
 }
+
+void Actor::Zoom(float step)
+{
+
+}
+
+float Actor::GetZoomScale() { return 0.0f; }

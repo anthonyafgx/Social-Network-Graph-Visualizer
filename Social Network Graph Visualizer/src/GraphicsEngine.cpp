@@ -1,6 +1,12 @@
 #include "GraphicsEngine.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include "Components/SpriteComponent.h"
+#include "Actors/Actor.h"
+#include "Actors/Node.h"
+#include "Actors/Camera.h"
+
+#define FPS_CAP
 
 GraphicsEngine::GraphicsEngine() : 
 	mIsRunning(true), 
@@ -192,30 +198,117 @@ SDL_Texture* GraphicsEngine::GetTexture(std::string path)
 	return tex;
 }
 
+const Vector2D<float> GraphicsEngine::GetCameraPos()
+{
+	return mCamera->GetPosition();
+}
+
+float GraphicsEngine::GetCameraZoom()
+{
+	return mCamera->GetZoomScale();
+}
+
 // Loop Related Methods
 
 void GraphicsEngine::ProcessInput()
 {
-	;
+	// Handle Events
+	SDL_Event sdlEvent;
+
+	while (SDL_PollEvent(&sdlEvent))
+	{
+		switch (sdlEvent.type)
+		{
+		case SDL_QUIT:
+			mIsRunning = false;
+			break;
+		default:
+			break;
+		}
+	}
+
+	// Process Input
+
+	const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+
+	for (Actor* actor : mActors)
+	{
+		actor->ProcessInput(keyboardState);
+	}
 }
 
 void GraphicsEngine::UpdateGame()
 {
-	;
+#ifdef FPS_CAP
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTicksCount + 16))
+	{
+		;
+	}
+#endif
+
+	float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
+	mTicksCount = SDL_GetTicks();
+
+	// Delta Time Cap (30fps)
+	if (deltaTime >= 0.033f)
+	{
+		deltaTime = 0.033f;
+	}
+
+	// Update Actors
+	mUpdatingActors = true;
+	for (Actor* actor : mActors)
+	{
+		actor->Update(deltaTime);
+	}
+	mUpdatingActors = false;
+
+	// Move Pending Actors to mActors
+	for (Actor* actor : mPendingActors)
+	{
+		mActors.emplace_back(actor);
+	}
+	mPendingActors.clear();
 }
 
 void GraphicsEngine::GenerateOutput()
 {
-	;
+	SDL_SetRenderDrawColor(mRenderer, 255, 255, 200, 255);
+	SDL_RenderClear(mRenderer);
+
+	// Render Sprites
+	for (SpriteComponent* sprite : mSprites)
+	{
+		sprite->Draw(mRenderer);
+	}
+	SDL_RenderPresent(mRenderer);
 }
 
 // Initialize / Shutdown Related Methods
 void GraphicsEngine::LoadData()
 {
-	;
+	new Node(this);
+	
+	mCamera = new Camera(this);
 }
 
 void GraphicsEngine::UnloadData()
 {
-	;
+	// Delete Actors
+	while (!mActors.empty())
+	{
+		delete mActors.back();
+	}
+
+	// Delete pending actors
+	while (!mPendingActors.empty())
+	{
+		delete mPendingActors.back();
+	}
+
+	// Destroy textures
+	for (auto tex : mTextures)
+	{
+		SDL_DestroyTexture(tex.second);
+	}
 }

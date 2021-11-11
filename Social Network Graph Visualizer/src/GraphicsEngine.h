@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <vector>
 #include <unordered_map>
+#include "Math.h"
 
 class GraphicsEngine
 {
@@ -28,6 +29,12 @@ public:
 	SDL_Window* GetWindow() const { return mWindow; }
 	SDL_Renderer* GetRenderer() const { return mRenderer; }
 	SDL_Texture* GetTexture(std::string path);
+
+	const Vector2D<int> GetScreenCenterI() { return Vector2D<int>(mWindowWidth / 2, mWindowHeight / 2); }
+	const Vector2D<float> GetScreenCenterF() { return Vector2D<float>(mWindowWidth / 2, mWindowHeight / 2); }
+
+	const Vector2D<float> GetCameraPos();
+	float GetCameraZoom();
 
 private:
 	// Loop Related Methods
@@ -56,5 +63,8 @@ private:
 	Uint32 mTicksCount;											//!< SDL Ticks Count in milliseconds
 	const int mWindowWidth;
 	const int mWindowHeight;
+
+	// Engine
+	class Actor* mCamera;
 };
 

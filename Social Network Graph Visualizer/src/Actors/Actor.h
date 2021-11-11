@@ -21,18 +21,23 @@ public:
 	void RemoveComponent(Component* comp);
 
 	// Getters / Setters
-	GraphicsEngine* GetGraphicsEngine() const { return mGraphicsEngine; }	//< Get GraphicsEngine pointer
+	class GraphicsEngine* GetGraphicsEngine() const { return mGraphicsEngine; }	//< Get GraphicsEngine pointer
 	float GetScale() const { return mScale; }								//< Get Actor's scale
 	void SetScale(float scale) { mScale = scale; }							//< Set Actor's scale
 
 	void SetRotation(float rotation) { mRotation = rotation; }
 	float GetRotation() const { return mRotation; }
 	void SetPosition(const Vector2D<float>& position) { mPosition = position; }
-	const Vector2D<float>& GetPosition() const { return mPosition; }				//< Returns a const reference Vector with position.
+	const Vector2D<float>& GetPosition() const { return mPosition; }			//< Returns a const reference Vector with position.
 	const Vector2D<float>& GetFowardVector() const;								//< Returns a const reference Unitary Foward Vector.
 
+	// Actors Code
+	// Camera Actor Code
+	virtual void Zoom(float step);
+	virtual float GetZoomScale();
+
 private:
-	GraphicsEngine* mGraphicsEngine;		//!< Graphics Engine pointer
+	class GraphicsEngine* mGraphicsEngine;		//!< Graphics Engine pointer
 
 	// Actor's information
 	Vector2D<float> mPosition;				//!< Actor's position on screen

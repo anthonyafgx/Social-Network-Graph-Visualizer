@@ -13,8 +13,13 @@ public:
 	virtual void Draw(SDL_Renderer* renderer);
 	void SetTexture(std::string path);
 
+	// Setters / Getters
+	int GetDrawOrder() const { return mDrawOrder; }
+	void SetRelativeToCamera(bool value) { mRelativeToCamera = value; }
+
 private:
 	int mDrawOrder;				//< The order in which sprites will be rendered.
 	SDL_Texture* mTexture;	
 	Vector2D<int> mTextureSize;	//< Texture size in pixels.
+	bool mRelativeToCamera;
 };

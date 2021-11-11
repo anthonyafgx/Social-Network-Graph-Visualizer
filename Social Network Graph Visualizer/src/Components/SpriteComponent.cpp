@@ -2,7 +2,10 @@
 #include "../Actors/Actor.h"
 #include "../GraphicsEngine.h"
 
-SpriteComponent::SpriteComponent(Actor* owner, int drawOrder) : Component(owner), mDrawOrder(drawOrder)
+SpriteComponent::SpriteComponent(Actor* owner, int drawOrder) : 
+	Component(owner), 
+	mDrawOrder(drawOrder),
+	mRelativeToCamera(true)
 {
 	// Add sprite to graphics engine class
 	mOwner->GetGraphicsEngine()->AddSprite(this);
@@ -23,15 +26,29 @@ void SpriteComponent::Draw(SDL_Renderer* renderer)
 		return;
 	}
 
-	SDL_Rect r;
-
 	// Create Rect
 	SDL_Rect r;
 
-	r.w = static_cast<int>(mTextureSize.x * mOwner->GetScale());
-	r.h = static_cast<int>(mTextureSize.y * mOwner->GetScale());
-	r.x = static_cast<int>(mOwner->GetPosition().x - r.w / 2);
-	r.y = static_cast<int>(mOwner->GetPosition().y - r.h / 2);
+	if (!mRelativeToCamera)	// draw in actor's position
+	{
+		r.w = static_cast<int>(mTextureSize.x * mOwner->GetScale());
+		r.h = static_cast<int>(mTextureSize.y * mOwner->GetScale());
+		r.x = static_cast<int>(mOwner->GetPosition().x - r.w / 2);
+		r.y = static_cast<int>(mOwner->GetPosition().y - r.h / 2);
+	}
+	else	// draw relative to camera
+	{
+		Vector2D<float> relativePos = mOwner->GetPosition() - mOwner->GetGraphicsEngine()->GetCameraPos();
+		Vector2D<int> screenCenterPos = mOwner->GetGraphicsEngine()->GetScreenCenterI();
+		float zoom = mOwner->GetGraphicsEngine()->GetCameraZoom();
+
+		r.w = static_cast<int>(mTextureSize.x * mOwner->GetScale() * zoom);
+		r.h = static_cast<int>(mTextureSize.y * mOwner->GetScale() * zoom);
+		r.x = static_cast<int>(relativePos.x * zoom - r.w / 2 + screenCenterPos.x);
+		r.y = static_cast<int>(relativePos.y * zoom - r.h / 2 + screenCenterPos.y);
+
+		SDL_Log("%f, %f", relativePos.x, relativePos.y);
+	}
 
 	//SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	//SDL_RenderFillRect(renderer, &r);
