@@ -14,7 +14,7 @@ Node::Node(GraphicsEngine* graphics) : Actor(graphics)
 
 Node::~Node()
 {
-	;
+
 }
 
 void Node::UpdateActor(float deltaTime)

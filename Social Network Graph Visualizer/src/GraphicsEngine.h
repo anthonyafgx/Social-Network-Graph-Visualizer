@@ -25,6 +25,9 @@ public:
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
 
+	void AddNode(class Node* node);
+	void RemoveNode(class Node* node);
+
 	// Getters / Setters
 	SDL_Window* GetWindow() const { return mWindow; }
 	SDL_Renderer* GetRenderer() const { return mRenderer; }
@@ -64,7 +67,7 @@ private:
 	const int mWindowWidth;
 	const int mWindowHeight;
 
-	// Engine
+	// Program Specific
 	class Actor* mCamera;
 };
 

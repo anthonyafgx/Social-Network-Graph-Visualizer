@@ -12,7 +12,9 @@ GraphicsEngine::GraphicsEngine() :
 	mIsRunning(true), 
 	mWindow(nullptr), 
 	mWindowWidth(1280), 
-	mWindowHeight(720) { ; }
+	mWindowHeight(720),
+	mUpdatingActors(false)
+{ ; }
 
 // GraphicsEngine Loop Functions
 
