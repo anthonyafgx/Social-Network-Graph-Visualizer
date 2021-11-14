@@ -5,6 +5,8 @@
 #include <queue>
 #include <iostream>
 
+// TO DO: Add an "Add Node" to Graph.cpp, which Node.cpp can call and add himself to Graph.
+
 Graph::Graph(GraphicsEngine* graphics) :
 	Actor(graphics)
 {
@@ -20,6 +22,151 @@ void Graph::UpdateActor(float deltaTime)
 {
 	;
 }
+
+void Graph::InsertNode(int id, std::string name)
+{
+	// Check if id already exists in graph.
+	if (mNodes[id] != nullptr)
+	{
+		std::cout << "INFO (InsertNode): Cannot Insert Node. Node with ID " << id << " already exists (in address " << mNodes[id] << ")\n";
+		return;
+	}
+
+	// Create node
+	Node* node = new Node(GetGraphicsEngine(), this);
+	node->SetId(id);
+	node->SetName(name);
+
+	// Add node to {mNodes} map
+	mNodes[id] = node;
+}
+
+void Graph::RemoveNode(int id)
+{
+	// Check if node with ID exists.
+	if (mNodes[id] == nullptr)
+	{
+		std::cout << "INFO (RemoveNode): Cannot Remove Node. Node with ID " << id << " does not exist.\n";
+		return;
+	}
+
+	// Destroy and Remove Node.
+	delete mNodes[id];
+	mNodes.erase(id);
+}
+
+void Graph::AddRelation(int idA, int idB)
+{
+	// Check if both nodes exist
+	if (mNodes[idA] == nullptr || mNodes[idB] == nullptr)
+	{
+		std::cout << "INFO (AddRelation): Cannot Relate ID " << idA << " with ID " << idB << " because one or both nodes do not exist.\n";
+		return;
+	}
+
+	// Check if relation already exist
+	if (HaveRelation(idA, idB, false))
+	{
+		std::cout << "INFO (AddRelation): Relation between Node " << idA << " and Node " << idB << " already exists.\n";
+		return;
+	}
+
+	// Create Relation
+	mNodes[idA]->mAdjacent.emplace_back(mNodes[idB]);	// add Node B to Node A's Adjacent Nodes.
+	mNodes[idB]->mAdjacent.emplace_back(mNodes[idA]);	// add Node A to Node B's Adjacent Nodes.
+
+	std::cout << "INFO (AddRelation): Relation between Node " << idA << " and Node " << idB << " successfully created.\n";
+}
+
+void Graph::RemoveRelation(int idA, int idB)
+{
+	// Check if both nodes exist
+	if (mNodes[idA] == nullptr || mNodes[idB] == nullptr)
+	{
+		std::cout << "INFO (RemoveRelation): Cannot Remove Relation between ID " << idA << " with ID " << idB << " because one or both nodes does not exist.\n";
+		return;
+	}
+
+	Node* a = mNodes[idA];
+	Node* b = mNodes[idB];
+
+	// Check if nodes have a relation
+	if (!HaveRelation(a, b, false))
+	{
+		std::cout << "INFO (RemoveRelation): Cannot Remove Relation because relation between ID " << idA << " and ID " << idB << " does not exist.\n";
+		return;
+	}
+
+	// STEP 1: Remove Relation.
+	// remove Node B from Node A's Adjacency List.
+	auto itrA = std::find(a->mAdjacent.begin(), a->mAdjacent.end(), b);
+	if (itrA != a->mAdjacent.end())
+	{
+		a->mAdjacent.erase(itrA);
+	}
+	else // this should never run.
+	{
+		std::cout << "FATAL ERROR (RemoveRelation): Could not remove Node B from Node A's adjacency list (Unknown Reason, iterator reached end of list)\n";
+	}
+
+	auto itrB = std::find(b->mAdjacent.begin(), b->mAdjacent.end(), a);
+	if (itrB != b->mAdjacent.end())
+	{
+		b->mAdjacent.erase(itrB);
+	}
+	else // this should never run.
+	{
+		std::cout << "FATAL ERROR (RemoveRelation): Could not remove Node A from Node B's adjacency list (Unknown Reason, iterator reached end of list)\n";
+	}
+}
+
+bool Graph::HaveRelation(int idA, int idB, bool print)
+{
+	if (HaveRelation(mNodes[idA], mNodes[idB]))	// have relation
+	{
+		if (print)
+		{
+			std::cout << "INFO (HaveRelation): Node " << idA << " and Node " << idB << " have a Relation.\n";
+		}
+		return true;
+	}
+	else   // do not have relation
+	{
+		if (print)
+		{
+			std::cout << "INFO (HaveRelation): Node " << idA << " and Node " << idB << " do not have a Relation";
+			if (mNodes[idA] == nullptr || mNodes[idB] == nullptr)
+			{
+				std::cout << " because one or both Nodes do not exist";
+			}
+			std::cout << ".\n";
+		}
+		return false;
+	}
+}
+
+bool Graph::HaveRelation(Node* a, Node* b, bool print)
+{
+	// Check if Nodes exist
+	if (!(a && b))	// if both or one of the nodes == nullptr
+	{
+		return false;
+	}
+
+	// Check if Nodes have relation
+	auto itrA = std::find(a->mAdjacent.begin(), a->mAdjacent.end(), b);	// find Node B in Node A's Adjacency List
+	auto itrB = std::find(b->mAdjacent.begin(), b->mAdjacent.end(), a);	// find Node A in Node B's Adjacency List
+
+	if (itrA != a->mAdjacent.end() && itrB != b->mAdjacent.end())	// if Nodes exist mutually inside Node A and Node B adjacency lists.
+	{
+		return true;
+	}
+	else // if not found mutually inside adjacency lists.
+	{
+		return false;
+	}
+}
+
 
 std::vector<const Node*> Graph::FindPath(const Node* from, const Node* to)
 {

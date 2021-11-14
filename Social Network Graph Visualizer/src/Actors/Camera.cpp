@@ -3,6 +3,8 @@
 #include "../Components/InputComponent.h"
 #include "../Components/CameraInputComponent.h"
 
+//#define DEBUG_CAMERA
+
 Camera::Camera(GraphicsEngine* graphics) : 
 	Actor(graphics),
 	mZoomScale(1.0f)
@@ -21,7 +23,9 @@ Camera::Camera(GraphicsEngine* graphics) :
 	input->SetZoomInKey(SDL_SCANCODE_W);
 	input->SetZoomOutKey(SDL_SCANCODE_S);
 
-	SDL_Log("%f, %f", GetPosition().x, GetPosition().y);
+#ifdef DEBUG_CAMERA
+	SDL_Log("Camera Position: %f, %f", GetPosition().x, GetPosition().y);
+#endif
 }
 
 Camera::~Camera()

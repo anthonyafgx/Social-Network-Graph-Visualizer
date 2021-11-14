@@ -3,8 +3,9 @@
 #include <SDL_image.h>
 #include "Components/SpriteComponent.h"
 #include "Actors/Actor.h"
-#include "Actors/Node.h"
 #include "Actors/Camera.h"
+#include "Actors/Graph.h"
+#include "Actors/Node.h"
 
 #define FPS_CAP
 
@@ -288,10 +289,14 @@ void GraphicsEngine::GenerateOutput()
 
 // Initialize / Shutdown Related Methods
 void GraphicsEngine::LoadData()
-{
-	new Node(this);
-	
+{	
 	mCamera = new Camera(this);
+	mGraph = new Graph(this);
+	
+	mGraph->InsertNode(5, "user 5");
+	mGraph->InsertNode(6, "user 6");
+	mGraph->InsertNode(7, "user 7");
+	mGraph->InsertNode(8, "user 8");
 }
 
 void GraphicsEngine::UnloadData()

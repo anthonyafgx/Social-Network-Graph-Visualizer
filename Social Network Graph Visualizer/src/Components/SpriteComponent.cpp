@@ -2,6 +2,8 @@
 #include "../Actors/Actor.h"
 #include "../GraphicsEngine.h"
 
+//#define DEBUG_SPRITE
+
 SpriteComponent::SpriteComponent(Actor* owner, int drawOrder) : 
 	Component(owner), 
 	mDrawOrder(drawOrder),
@@ -47,7 +49,9 @@ void SpriteComponent::Draw(SDL_Renderer* renderer)
 		r.x = static_cast<int>(relativePos.x * zoom - r.w / 2 + screenCenterPos.x);
 		r.y = static_cast<int>(relativePos.y * zoom - r.h / 2 + screenCenterPos.y);
 
-		SDL_Log("%f, %f", relativePos.x, relativePos.y);
+#ifdef DEBUG_SPRITE
+		SDL_Log("Sprite Postition of (%i): %f, %f", mOwner, relativePos.x, relativePos.y);
+#endif
 	}
 
 	//SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);

@@ -25,8 +25,8 @@ public:
 	void AddSprite(class SpriteComponent* sprite);
 	void RemoveSprite(class SpriteComponent* sprite);
 
-	void AddNode(class Node* node);
-	void RemoveNode(class Node* node);
+	//void AddNode(class Node* node);
+	//void RemoveNode(class Node* node);
 
 	// Getters / Setters
 	SDL_Window* GetWindow() const { return mWindow; }
@@ -69,5 +69,6 @@ private:
 
 	// Program Specific
 	class Actor* mCamera;
+	class Graph* mGraph;
 };
 
