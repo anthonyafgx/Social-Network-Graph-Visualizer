@@ -32,6 +32,16 @@ namespace Math
 			return false;
 		}
 	}
+
+	inline int Random(int from, int to)
+	{
+		return (rand() % (to - from + 1)) + from;
+	}
+
+	inline bool IsPowerOfTwo(int num)
+	{
+		return (num != 0) && ((num & (num - 1)) == 0);
+	}
 }
 
 template<typename T> class Vector2D

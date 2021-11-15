@@ -276,7 +276,7 @@ void GraphicsEngine::UpdateGame()
 
 void GraphicsEngine::GenerateOutput()
 {
-	SDL_SetRenderDrawColor(mRenderer, 255, 255, 200, 255);
+	SDL_SetRenderDrawColor(mRenderer, 240, 240, 245, 255);
 	SDL_RenderClear(mRenderer);
 
 	// Render Sprites

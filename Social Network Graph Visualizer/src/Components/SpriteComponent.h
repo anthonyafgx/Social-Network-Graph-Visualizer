@@ -17,7 +17,7 @@ public:
 	int GetDrawOrder() const { return mDrawOrder; }
 	void SetRelativeToCamera(bool value) { mRelativeToCamera = value; }
 
-private:
+protected:
 	int mDrawOrder;				//< The order in which sprites will be rendered.
 	SDL_Texture* mTexture;	
 	Vector2D<int> mTextureSize;	//< Texture size in pixels.

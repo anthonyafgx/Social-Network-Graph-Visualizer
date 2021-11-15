@@ -137,6 +137,7 @@
     <ClCompile Include="src\Actors\Camera.cpp" />
     <ClCompile Include="src\Components\CameraInputComponent.cpp" />
     <ClCompile Include="src\Components\Component.cpp" />
+    <ClCompile Include="src\Components\DynamicSpriteComponent.cpp" />
     <ClCompile Include="src\Components\InputComponent.cpp" />
     <ClCompile Include="src\Components\MoveComponent.cpp" />
     <ClCompile Include="src\Components\SpriteComponent.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="src\Actors\Camera.h" />
     <ClInclude Include="src\Components\CameraInputComponent.h" />
     <ClInclude Include="src\Components\Component.h" />
+    <ClInclude Include="src\Components\DynamicSpriteComponent.h" />
     <ClInclude Include="src\Components\InputComponent.h" />
     <ClInclude Include="src\Components\MoveComponent.h" />
     <ClInclude Include="src\Components\SpriteComponent.h" />

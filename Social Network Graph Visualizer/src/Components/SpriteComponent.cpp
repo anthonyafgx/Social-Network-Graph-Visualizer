@@ -1,8 +1,9 @@
 #include "SpriteComponent.h"
 #include "../Actors/Actor.h"
 #include "../GraphicsEngine.h"
+#include <iostream>
 
-//#define DEBUG_SPRITE
+#define DEBUG_SPRITE
 
 SpriteComponent::SpriteComponent(Actor* owner, int drawOrder) : 
 	Component(owner), 
@@ -50,7 +51,7 @@ void SpriteComponent::Draw(SDL_Renderer* renderer)
 		r.y = static_cast<int>(relativePos.y * zoom - r.h / 2 + screenCenterPos.y);
 
 #ifdef DEBUG_SPRITE
-		SDL_Log("Sprite Postition of (%i): %f, %f", mOwner, relativePos.x, relativePos.y);
+		std::cout << "Texture Rect Size: " << r.w << ", " << r.h << "\n";
 #endif
 	}
 
@@ -84,4 +85,4 @@ void SpriteComponent::SetTexture(std::string path)
 
 	// Get texture's size (in pixels)
 	SDL_QueryTexture(tex, NULL, NULL, &mTextureSize.x, &mTextureSize.y);
-}
+};

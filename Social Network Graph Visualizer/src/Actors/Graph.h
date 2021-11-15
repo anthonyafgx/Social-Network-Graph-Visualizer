@@ -22,6 +22,9 @@ public:
 	bool HaveRelation(int idA, int idB, bool print = true);
 	bool HaveRelation(class Node* a, class Node* b, bool print = true);
 
+	// Getters / Setters
+	const std::unordered_map<int, class Node*>& GetNodes() { return mNodes; }
+
 
 	std::vector<const class Node*> FindPath(const class Node* from, const class Node* to);
 
