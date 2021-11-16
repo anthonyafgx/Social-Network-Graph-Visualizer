@@ -10,6 +10,8 @@
 * path exmaple: ../x256/circle.png
 * NOTE: ONLY ADD 2^n SIZES TEXTURES (x64, x128, x256, x512, x1024)
 * x64 means 64 pixels WIDE.
+
+* Has a slight modification to support drawing lines between adjacent nodes.
 */
 class DynamicSpriteComponent : public SpriteComponent
 {

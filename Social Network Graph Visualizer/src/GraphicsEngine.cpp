@@ -1,13 +1,16 @@
 #include "GraphicsEngine.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include "Components/SpriteComponent.h"
 #include "Actors/Actor.h"
 #include "Actors/Camera.h"
 #include "Actors/Graph.h"
 #include "Actors/Node.h"
+#include <iostream>
 
 #define FPS_CAP
+//#define SHOW_FPS
 
 GraphicsEngine::GraphicsEngine() : 
 	mIsRunning(true), 
@@ -69,6 +72,22 @@ bool GraphicsEngine::Initialize()
 		mIsRunning = false;
 	}
 
+	// SDL TTF (Fonts)
+	int ttfInit = TTF_Init();
+
+	if (ttfInit != 0)
+	{
+		SDL_Log("Unable to initialize SDL_TTF support: %s\n", TTF_GetError());
+	}
+	
+	const int fontSize = 24;
+	mFont = TTF_OpenFont("Assets/Fonts/consola.ttf", fontSize);
+	
+	if (!mFont)
+	{
+		SDL_Log("Unable to open font: %s\n", TTF_GetError());
+	}
+
 	LoadData();
 
 	return true;
@@ -89,6 +108,7 @@ void GraphicsEngine::Shutdown()
 	UnloadData();
 
 	IMG_Quit();
+	TTF_Quit();
 	SDL_DestroyWindow(mWindow);
 	SDL_DestroyRenderer(mRenderer);
 	SDL_Quit();
@@ -190,7 +210,7 @@ SDL_Texture* GraphicsEngine::GetTexture(std::string path)
 			mIsRunning = false;
 		}
 
-		// Delete Surface
+		// Destroy Surface
 		SDL_FreeSurface(surface);
 
 		// Add tex to Map
@@ -198,6 +218,45 @@ SDL_Texture* GraphicsEngine::GetTexture(std::string path)
 	}
 
 	// Return tex
+	return tex;
+}
+
+SDL_Texture* GraphicsEngine::GetTextureFromText(std::string text, SDL_Color& color)
+{
+	// Pointer that will be returned
+	SDL_Texture* tex = nullptr;
+
+	// Cache
+	auto itr = mTextures.find(text);
+
+	if (itr != mTextures.end())
+	{
+		return itr->second;
+	}
+	else
+	{
+		// Make surface from text
+		SDL_Surface* textSurface = TTF_RenderText_Solid(mFont, text.c_str(), color);
+
+		if (!textSurface)
+		{
+			SDL_Log("Unable to render text. %s\n", TTF_GetError());
+		}
+
+		tex = SDL_CreateTextureFromSurface(mRenderer, textSurface);
+
+		if (!tex)
+		{
+			SDL_Log("Unable to convert surface to texture: %s\n", SDL_GetError());
+		}
+
+		// Destroy Surface
+		SDL_FreeSurface(textSurface);
+
+		// Add tex to map
+		mTextures.emplace(text, tex);
+	}
+
 	return tex;
 }
 
@@ -250,6 +309,11 @@ void GraphicsEngine::UpdateGame()
 #endif
 
 	float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
+
+#ifdef SHOW_FPS
+	std::cout << "FPS: " <<  1 / deltaTime << "\n";
+#endif
+
 	mTicksCount = SDL_GetTicks();
 
 	// Delta Time Cap (30fps)
@@ -297,6 +361,12 @@ void GraphicsEngine::LoadData()
 	mGraph->InsertNode(6, "user 6");
 	mGraph->InsertNode(7, "user 7");
 	mGraph->InsertNode(8, "user 8");
+	mGraph->AddRelation(5, 6);
+	//mGraph->AddRelation(5, 7);
+	//mGraph->AddRelation(5, 8);
+	mGraph->AddRelation(6, 7);
+	mGraph->AddRelation(6, 8);
+	mGraph->AddRelation(7, 8);
 }
 
 void GraphicsEngine::UnloadData()
@@ -318,4 +388,7 @@ void GraphicsEngine::UnloadData()
 	{
 		SDL_DestroyTexture(tex.second);
 	}
+
+	// Close font
+	TTF_CloseFont(mFont);
 }

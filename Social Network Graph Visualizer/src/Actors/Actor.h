@@ -35,6 +35,10 @@ public:
 	// Camera Actor Code
 	virtual void Zoom(float step);
 	virtual float GetZoomScale();
+	virtual void SetZoomScale(float zoom) { ; }
+
+	// Node Actor Code
+	virtual const std::vector<class Node*> GetAdjacentNodes() { return { }; }
 
 private:
 	class GraphicsEngine* mGraphicsEngine;		//!< Graphics Engine pointer

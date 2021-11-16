@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\include;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\lib\x64;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\include;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\lib\x64;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -97,7 +97,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -128,7 +128,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -140,6 +140,8 @@
     <ClCompile Include="src\Components\DynamicSpriteComponent.cpp" />
     <ClCompile Include="src\Components\InputComponent.cpp" />
     <ClCompile Include="src\Components\MoveComponent.cpp" />
+    <ClCompile Include="src\Components\DynamicLinesComponent.cpp" />
+    <ClCompile Include="src\Components\DynamicTextComponent.cpp" />
     <ClCompile Include="src\Components\SpriteComponent.cpp" />
     <ClCompile Include="src\Math.cpp" />
     <ClCompile Include="src\Actors\Actor.cpp" />
@@ -152,7 +154,9 @@
     <ClInclude Include="src\Actors\Camera.h" />
     <ClInclude Include="src\Components\CameraInputComponent.h" />
     <ClInclude Include="src\Components\Component.h" />
+    <ClInclude Include="src\Components\DynamicLinesComponent.h" />
     <ClInclude Include="src\Components\DynamicSpriteComponent.h" />
+    <ClInclude Include="src\Components\DynamicTextComponent.h" />
     <ClInclude Include="src\Components\InputComponent.h" />
     <ClInclude Include="src\Components\MoveComponent.h" />
     <ClInclude Include="src\Components\SpriteComponent.h" />

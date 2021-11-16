@@ -16,4 +16,6 @@ private:
 	int mZoomInKey;
 	int mZoomOutKey;
 	float mZoomStep;	//< By how much it zooms every time button is pressed
+	float mMaxZoomIn;
+	float mMaxZoomOut;
 };

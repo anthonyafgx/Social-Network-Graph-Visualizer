@@ -3,7 +3,7 @@
 #include "../GraphicsEngine.h"
 #include <iostream>
 
-#define DYNAMIC_SPRITE_DEBUG
+//#define DYNAMIC_SPRITE_DEBUG
 
 DynamicSpriteComponent::DynamicSpriteComponent(Actor* owner, int drawOrder) :
 	SpriteComponent(owner, drawOrder),
@@ -37,13 +37,19 @@ void DynamicSpriteComponent::AddTexture(std::string path)
 	if (!mTexture)
 	{
 		SetTexture(path);
-		mCurrentSize = size;
 		mNormalizeFactor = static_cast<float>(mDefaultSize) / mTextureSize.x;
 	}
 }
 
 void DynamicSpriteComponent::Draw(SDL_Renderer* renderer)
 {
+	// texture not found
+	if (!mTexture)
+	{
+		SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Cannot draw sprite, texture not found");
+		return;
+	}
+
 	SDL_Rect r;
 
 	// STEP 1: Get Information
@@ -57,13 +63,11 @@ void DynamicSpriteComponent::Draw(SDL_Renderer* renderer)
 	// if is bigger than current size and double the size exists in map
 	if (size > mTextureSize.x + (mTextureSize.x / 2) && mTexturesMap[mTextureSize.x * 2] != "")
 	{
-		mCurrentSize *= 2;														// double the texture's size.
 		SetTexture(mTexturesMap[mTextureSize.x * 2]);							// set new texture.
 		mNormalizeFactor = static_cast<float>(mDefaultSize) / mTextureSize.x;	// set new normalize factor.
 	}
 	else if (size < mTextureSize.x - (mTextureSize.x / 4) && mTexturesMap[mTextureSize.x / 2] != "")
 	{
-		mCurrentSize /= 2;														// double the texture's size.
 		SetTexture(mTexturesMap[mTextureSize.x / 2]);							// set new texture.
 		mNormalizeFactor = static_cast<float>(mDefaultSize) / mTextureSize.x;	// set new normalize factor.
 	}

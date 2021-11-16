@@ -33,9 +33,7 @@ void Graph::InsertNode(int id, std::string name)
 	}
 
 	// Create node
-	Node* node = new Node(GetGraphicsEngine(), this);
-	node->SetId(id);
-	node->SetName(name);
+	Node* node = new Node(GetGraphicsEngine(), this, id, name);
 
 	// Add node to {mNodes} map
 	mNodes[id] = node;
@@ -57,19 +55,31 @@ void Graph::RemoveNode(int id)
 
 void Graph::AddRelation(int idA, int idB)
 {
-	// Check if both nodes exist
+	// Ids should be different
+	if (idA == idB)
+	{
+		std::cout << "INFO (AddRelation): Cannot Relate ID " << idA << " with itself!\n";
+		return;
+	}
+
+	// Both nodes should exist
 	if (mNodes[idA] == nullptr || mNodes[idB] == nullptr)
 	{
 		std::cout << "INFO (AddRelation): Cannot Relate ID " << idA << " with ID " << idB << " because one or both nodes do not exist.\n";
 		return;
 	}
 
-	// Check if relation already exist
+	// Relation should not previously exist
 	if (HaveRelation(idA, idB, false))
 	{
 		std::cout << "INFO (AddRelation): Relation between Node " << idA << " and Node " << idB << " already exists.\n";
 		return;
 	}
+
+	// SUCESS Create Relation.
+	
+	// Reposition Nodes before creating relation
+	RepositionNode(mNodes[idA], mNodes[idB]);
 
 	// Create Relation
 	mNodes[idA]->mAdjacent.emplace_back(mNodes[idB]);	// add Node B to Node A's Adjacent Nodes.
@@ -263,5 +273,50 @@ std::vector<const Node*> Graph::ReconstructPath(const Node* start, const Node* g
 	{
 		std::cout << "INFO: No path was found from Node address: " << start << " to Node address: " << goal << std::endl;
 		return std::vector<const Node*> {};
+	}
+}
+
+void Graph::RepositionNode(Node* a, Node* b)
+{
+	// Check if both nodes exist
+	if (!(a && b))	// if one or both nodes == nullptr
+	{
+		std::cout << "INFO (RepositionNode): Cannot reposition node because one or both nodes do not exist.\n";
+		return;
+	}
+
+	// Reposition Nodes
+
+	// Generate random values
+	float randomAngle = Math::Random(0, Math::TwoPi);	//< random angle (in radians).
+	float randomDistance = Math::Random(3, 5);			//< distance from one node to another (n times diameter).
+
+	// Rule 1: If one of the nodes has no relations, move near the other node.
+	if (b->mAdjacent.empty())
+	{
+
+		// Calculate unitary vector from random angle
+		Vector2D<float> vec { cosf(randomAngle), -sinf(randomAngle) };
+
+		// Set Distance
+		vec = vec * (b->GetDiameter() * randomDistance);	//< Random value determines distance (x times diameter of node)
+
+		// Set position respect to Node A's position
+		b->SetPosition(vec + a->GetPosition());
+		
+		return;
+	}
+	else if (a->mAdjacent.empty())
+	{
+		// Calculate unitary vector from random angle
+		Vector2D<float> vec{ cosf(randomAngle), -sinf(randomAngle) };
+
+		// Set Distance
+		vec = vec * (a->GetDiameter() * randomDistance);	//< Random value determines distance (x times diameter of node)
+
+		// Set position respect to Node B's position
+		a->SetPosition(vec + b->GetPosition());
+		
+		return;
 	}
 }

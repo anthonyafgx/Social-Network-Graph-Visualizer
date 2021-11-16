@@ -7,7 +7,8 @@ public:
 	~Camera();
 
 	void Zoom(float step) override { mZoomScale += step; }
-	float GetZoomScale() override { return mZoomScale; }
+ 	float GetZoomScale() override { return mZoomScale; }
+	void SetZoomScale(float zoom) override { mZoomScale = zoom; }
 
 private:
 	float mZoomScale;

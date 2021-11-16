@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <vector>
 #include <unordered_map>
 #include "Math.h"
@@ -32,6 +33,7 @@ public:
 	SDL_Window* GetWindow() const { return mWindow; }
 	SDL_Renderer* GetRenderer() const { return mRenderer; }
 	SDL_Texture* GetTexture(std::string path);
+	SDL_Texture* GetTextureFromText(std::string text, SDL_Color& color);
 
 	const Vector2D<int> GetScreenCenterI() { return Vector2D<int>(mWindowWidth / 2, mWindowHeight / 2); }
 	const Vector2D<float> GetScreenCenterF() { return Vector2D<float>(mWindowWidth / 2, mWindowHeight / 2); }
@@ -54,7 +56,7 @@ private:
 	std::vector<class Actor*> mActors;							//!< Vector containing pointers to each Actor
 	std::vector<class Actor*> mPendingActors;					//!< Vector containing pointers to Actors that will be moved to mActors
 	std::vector<class SpriteComponent*> mSprites;				//!< Vector containing pointers to each Sprite (sorted by drawing order)
-	std::unordered_map<std::string, SDL_Texture*> mTextures;	//!< key = path ; value = texture pointer
+	std::unordered_map<std::string, SDL_Texture*> mTextures;	//!< Textures of images or text where key = path or text ; value = texture pointer
 
 	// GraphicsEngine info
 	bool mIsRunning;											//!< Indicates if game should continue run
@@ -66,6 +68,7 @@ private:
 	Uint32 mTicksCount;											//!< SDL Ticks Count in milliseconds
 	const int mWindowWidth;
 	const int mWindowHeight;
+	TTF_Font* mFont;											//!< SDL Font
 
 	// Program Specific
 	class Actor* mCamera;
