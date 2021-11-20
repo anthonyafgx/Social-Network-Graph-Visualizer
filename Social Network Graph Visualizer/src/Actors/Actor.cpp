@@ -62,6 +62,12 @@ void Actor::ProcessInput(const Uint8* state)
 	{
 		comp->ProcessInput(state);
 	}
+	ActorInput(state);
+}
+
+void Actor::ActorInput(const Uint8* state)
+{
+	;
 }
 
 // ADDERS / REMOVERS

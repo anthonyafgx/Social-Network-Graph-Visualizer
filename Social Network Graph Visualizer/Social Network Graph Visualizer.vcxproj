@@ -133,6 +133,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Actors\Graph.cpp" />
+    <ClCompile Include="src\Actors\Mouse.cpp" />
     <ClCompile Include="src\Actors\Node.cpp" />
     <ClCompile Include="src\Actors\Camera.cpp" />
     <ClCompile Include="src\Components\CameraInputComponent.cpp" />
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actors\Graph.h" />
+    <ClInclude Include="src\Actors\Mouse.h" />
     <ClInclude Include="src\Actors\Node.h" />
     <ClInclude Include="src\Actors\Camera.h" />
     <ClInclude Include="src\Components\CameraInputComponent.h" />

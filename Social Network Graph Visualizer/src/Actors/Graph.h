@@ -33,7 +33,9 @@ private:
 	bool BFS(const class Node* start, const class Node* goal, std::unordered_map<const Node*, const Node*>& parentsMap);
 	std::vector<const Node*> ReconstructPath(const Node* start, const Node* goal ,std::unordered_map<const Node*, const Node*>& parentsMap);
 
-	void RepositionNode(Node* a, Node* b);
+	void RepositionNode(class Node* a, class Node* b);
+
+	bool IsColliding(Node* a, Node* b);
 
 private:
 	std::unordered_map<int, class Node*> mNodes;

@@ -79,6 +79,12 @@ public:
 		return *this;
 	}
 
+	//@return Squared Length of a vector (to avoid square root).
+	float LengthSq()
+	{
+		return x * x + y * y;
+	}
+
 public:
 	T x;
 	T y;

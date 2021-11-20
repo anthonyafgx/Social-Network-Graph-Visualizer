@@ -71,7 +71,8 @@ private:
 	TTF_Font* mFont;											//!< SDL Font
 
 	// Program Specific
-	class Actor* mCamera;
+	class Mouse* mMouse;
+	class Camera* mCamera;
 	class Graph* mGraph;
 };
 

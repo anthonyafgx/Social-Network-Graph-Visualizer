@@ -7,6 +7,7 @@
 #include "Actors/Camera.h"
 #include "Actors/Graph.h"
 #include "Actors/Node.h"
+#include "Actors/Mouse.h"
 #include <iostream>
 
 #define FPS_CAP
@@ -60,6 +61,8 @@ bool GraphicsEngine::Initialize()
 	{
 		SDL_Log("Unable to create renderer: %s", SDL_GetError());
 	}
+
+
 
 	// SDL Image
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
@@ -354,6 +357,7 @@ void GraphicsEngine::GenerateOutput()
 // Initialize / Shutdown Related Methods
 void GraphicsEngine::LoadData()
 {	
+	mMouse = new Mouse(this);
 	mCamera = new Camera(this);
 	mGraph = new Graph(this);
 	

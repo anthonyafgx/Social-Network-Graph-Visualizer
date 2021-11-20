@@ -285,38 +285,55 @@ void Graph::RepositionNode(Node* a, Node* b)
 		return;
 	}
 
+	int attempts = 3;	// (modifiable) max number of attempts the loop can make to fix the node
+
 	// Reposition Nodes
-
-	// Generate random values
-	float randomAngle = Math::Random(0, Math::TwoPi);	//< random angle (in radians).
-	float randomDistance = Math::Random(3, 5);			//< distance from one node to another (n times diameter).
-
-	// Rule 1: If one of the nodes has no relations, move near the other node.
-	if (b->mAdjacent.empty())
+	do
 	{
+		// Count attempt
+		attempts--;
 
-		// Calculate unitary vector from random angle
-		Vector2D<float> vec { cosf(randomAngle), -sinf(randomAngle) };
+		// Generate random values
+		float randomAngle = Math::Random(0, Math::TwoPi);	//< random angle (in radians).
+		float randomDistance = Math::Random(3, 5);			//< (modifiable) distance from one node to another (n times diameter).
 
-		// Set Distance
-		vec = vec * (b->GetDiameter() * randomDistance);	//< Random value determines distance (x times diameter of node)
+		// Rule 1: If one of the nodes has no relations, move near the other node.
+		if (b->mAdjacent.empty())
+		{
 
-		// Set position respect to Node A's position
-		b->SetPosition(vec + a->GetPosition());
-		
-		return;
-	}
-	else if (a->mAdjacent.empty())
+			// Calculate unitary vector from random angle
+			Vector2D<float> vec{ cosf(randomAngle), -sinf(randomAngle) };
+
+			// Set Distance
+			vec = vec * (b->GetDiameter() * randomDistance);	//< Random value determines distance (x times diameter of node)
+
+			// Set position respect to Node A's position
+			b->SetPosition(vec + a->GetPosition());
+		}
+		else if (a->mAdjacent.empty())
+		{
+			// Calculate unitary vector from random angle
+			Vector2D<float> vec{ cosf(randomAngle), -sinf(randomAngle) };
+
+			// Set Distance
+			vec = vec * (a->GetDiameter() * randomDistance);	//< Random value determines distance (x times diameter of node)
+
+			// Set position respect to Node B's position
+			a->SetPosition(vec + b->GetPosition());
+		}
+	} while (IsColliding(a, b) && attempts != 0);
+
+}
+
+bool Graph::IsColliding(Node* a, Node* b)
+{
+	if (!(a && b))	// if one or both nodes == nullptr
 	{
-		// Calculate unitary vector from random angle
-		Vector2D<float> vec{ cosf(randomAngle), -sinf(randomAngle) };
-
-		// Set Distance
-		vec = vec * (a->GetDiameter() * randomDistance);	//< Random value determines distance (x times diameter of node)
-
-		// Set position respect to Node B's position
-		a->SetPosition(vec + b->GetPosition());
-		
-		return;
+		return false;
 	}
+
+	Vector2D<float> vec = b->GetPosition() - a->GetPosition();
+	float totalRadius = a->GetDiameter() / 2 + b->GetDiameter() / 2;
+
+	return vec.LengthSq() <= totalRadius * totalRadius;
 }

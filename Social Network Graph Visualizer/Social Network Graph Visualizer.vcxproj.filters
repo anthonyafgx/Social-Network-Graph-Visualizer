@@ -60,6 +60,9 @@
     <ClCompile Include="src\Components\DynamicTextComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Actors\Mouse.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GraphicsEngine.h">
@@ -102,6 +105,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\DynamicTextComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Actors\Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

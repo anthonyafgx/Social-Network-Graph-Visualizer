@@ -5,6 +5,12 @@
 
 class Actor
 {
+//public:
+//	enum State
+//	{
+//		
+//	};
+
 public:
 	Actor(class GraphicsEngine* graphics);
 	virtual ~Actor();
@@ -14,7 +20,8 @@ public:
 	void UpdateComponents(float deltaTime);								//< called from Update() method.	(not overridable)
 	virtual void UpdateActor(float deltaTime);							//< Child Actor's specific code.	(overridable)
 
-	virtual void ProcessInput(const Uint8* state);						//< Process Actor's input (overridable)
+	void ProcessInput(const Uint8* state);								//< Process Actor's input (not overridable)
+	virtual void ActorInput(const Uint8* state);						//< Process Specific Actor input (overridable)
 
 	// Adders / Removers
 	void AddComponent(class Component* comp);
@@ -44,10 +51,12 @@ private:
 	class GraphicsEngine* mGraphicsEngine;		//!< Graphics Engine pointer
 
 	// Actor's information
-	Vector2D<float> mPosition;				//!< Actor's position on screen
+	Vector2D<float> mPosition;				//!< Actor's logical position
+	Vector2D<float> mRelativePos;			//!< Actor's position on screen (relative to camera)
 	Vector2D<float> mFowardVector;			//!< Unitary vector showing where the actor is pointing at
 	float mRotation;						//!< Actor's rotation (in radians)
 	float mScale;							//!< Actor's scale
+	float mRelativeScale;					//!< Actor's scale relative to camera.
 
 	// Containers
 	std::vector<Component*> mComponents;	//!< Actor's Components
