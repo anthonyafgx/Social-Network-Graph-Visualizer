@@ -2,7 +2,10 @@
 #include "../Components/Component.h"
 #include "../GraphicsEngine.h"
 
-Actor::Actor(GraphicsEngine* graphics) : mGraphicsEngine(graphics), mScale(1.0f), mRotation(0.0f)
+Actor::Actor(GraphicsEngine* graphics) : 
+	mGraphicsEngine(graphics), 
+	mScale(1.0f), 
+	mRotation(0.0f)
 {
 	// Add itself to the mActors vector
 	mGraphicsEngine->AddActor(this);
@@ -39,6 +42,7 @@ Actor::~Actor()
  */
 void Actor::Update(float deltaTime)
 {
+	// Update Components
 	UpdateComponents(deltaTime);
 	UpdateActor(deltaTime);
 }

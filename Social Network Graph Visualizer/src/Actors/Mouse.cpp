@@ -2,17 +2,18 @@
 #include "../GraphicsEngine.h"
 #include <iostream>
 
-#define MOUSE_DEBUG
+//#define MOUSE_DEBUG_BUTTONS
+//#define MOUSE_DEBUG_POSITION
 
 Mouse::Mouse(GraphicsEngine* graphics) :
 	Actor(graphics),
 	mLeftPrevState(Mouse::None),
 	mRightPrevState(Mouse::None),
-	mTimeToDrag(1.0f),
+	mTimeToDrag(0.15f),
 	mLeftPressTimeout(mTimeToDrag),
 	mRightPressTimeout(mTimeToDrag)
 {
-	
+
 }
 
 void Mouse::ActorInput(const Uint8* state)
@@ -25,8 +26,10 @@ void Mouse::ActorInput(const Uint8* state)
 	int x, y;
 	Uint32 buttons = SDL_GetMouseState(&x, &y);
 
-	//SetPosition(Vector2D<float>(static_cast<float>(x), static_cast<float>(y)));
+	// Update Mouse Rect
+	SetRelativeRect(SDL_Rect{ x, y, 1, 1 });
 
+	// Update Mouse Buttons' State
 	if ((buttons & SDL_BUTTON_LMASK) != 0)
 	{
 		if (mLeftCurrState != Mouse::Drag)
@@ -87,8 +90,8 @@ void Mouse::UpdateActor(float deltaTime)
 		mRightCurrState = Mouse::Drag;
 		mRightPressTimeout = 0;
 	}
+#ifdef MOUSE_DEBUG_BUTTONS
 
-#ifdef MOUSE_DEBUG
 	if (mLeftCurrState == Mouse::Pressed && mLeftPrevState == Mouse::None)
 	{
 		std::cout << "INFO (Mouse): Left Mouse Button Pressed\n";
@@ -106,5 +109,12 @@ void Mouse::UpdateActor(float deltaTime)
 	{
 		std::cout << "INFO (Mouse): Right Mouse Button Dragging\n";
 	}
+
+#endif
+
+#ifdef MOUSE_DEBUG_POSITION
+
+	std::cout << "INFO (Mouse): Mouse position relative to camera is " << GetRelativeRect().x << "," << GetRelativeRect().y << "\n";
+
 #endif
 }

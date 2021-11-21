@@ -6,28 +6,45 @@
 class Node : public Actor
 {
 public:
+	// TO DO: Write Behavior and Actor's Input to Actor.h
+	// Moved Behavior to Actor.h 
+	/*enum Behavior
+	{
+		None,
+		MouseOnTop,
+		MouseLeftClick,
+		MouseRightClick,
+		MouseDrag
+	};*/
+
+public:
 	Node(class GraphicsEngine* graphics, class Graph* graph, int id, std::string name);
 	~Node();
 
 	// Graphics Engine Methods
 	void UpdateActor(float deltaTime) override;
+	void ActorInput(const Uint8* state) override;
 
 	// Graph Methods
 	int GetId() const { return mId; }
-	//void SetId(int id) { mId = id; }
 	std::string GetName() const { return mName; }
-	//void SetName(std::string name) { mName = name; }
 
 	// Getters / Setters
 	int GetDiameter() const { return mDiameter; }
 	const std::vector<class Node*> GetAdjacentNodes() override { return mAdjacent; }
+	Behavior GetBehavior() override { return mBehavior; }
 
 public:
+	// Graph Variables
 	std::vector<Node*> mAdjacent;	//< Adjacent Nodes (adjacency list)
 
 private:
+	// Graph Variables
 	class Graph* mGraph;
-	int mId;
-	std::string mName;
-	int mDiameter;
+	const int mId;
+	const std::string mName;
+
+	// Engine Variables
+	int mDiameter;					//< Node's logical diameter (non relative to camera).
+	Behavior mBehavior;				//< Node's behavior depending on mouse
 };

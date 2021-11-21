@@ -13,11 +13,11 @@ DynamicSpriteComponent::DynamicSpriteComponent(Actor* owner, int drawOrder) :
 	;
 }
 
-void DynamicSpriteComponent::AddTexture(std::string path)
+void DynamicSpriteComponent::AddTexture(std::string path, Uint8 alpha)
 {
 	// Get Texture Width Size.
 	int size;
-	SDL_Texture* tex = mOwner->GetGraphicsEngine()->GetTexture(path);
+	SDL_Texture* tex = mOwner->GetGraphicsEngine()->GetTexture(path, alpha);
 
 	SDL_QueryTexture(tex, NULL, NULL, &size, nullptr);
 
@@ -50,8 +50,6 @@ void DynamicSpriteComponent::Draw(SDL_Renderer* renderer)
 		return;
 	}
 
-	SDL_Rect r;
-
 	// STEP 1: Get Information
 
 	Vector2D<float> relativePos = mOwner->GetPosition() - mOwner->GetGraphicsEngine()->GetCameraPos();
@@ -73,13 +71,16 @@ void DynamicSpriteComponent::Draw(SDL_Renderer* renderer)
 	}
 
 	// STEP 3: Calculate Rect
-	r.w = static_cast<int>(mTextureSize.x * mOwner->GetScale() * zoom * mNormalizeFactor);
-	r.h = static_cast<int>(mTextureSize.y * mOwner->GetScale() * zoom * mNormalizeFactor);
-	r.x = static_cast<int>(relativePos.x * zoom - r.w / 2 + screenCenterPos.x);
-	r.y = static_cast<int>(relativePos.y * zoom - r.h / 2 + screenCenterPos.y);
+	int width = static_cast<int>(mTextureSize.x * mOwner->GetScale() * zoom * mNormalizeFactor);
+	int height = static_cast<int>(mTextureSize.y * mOwner->GetScale() * zoom * mNormalizeFactor);
+	int x = static_cast<int>(relativePos.x * zoom - width / 2 + screenCenterPos.x);
+	int y = static_cast<int>(relativePos.y * zoom - height / 2 + screenCenterPos.y);
+
+	// STEP 4: Update Actor's Rect.
+	mOwner->SetRelativeRect(SDL_Rect{ x, y, width, height });
 
 #ifdef DYNAMIC_SPRITE_DEBUG
-	std::cout << "Texture Rect Size: " << r.w << ", " << r.h << "\t";
+	std::cout << "Texture Rect Size: " << width << ", " << height << "\t";
 	std::cout << "|Normalize Factor: " << mNormalizeFactor << "\t";
 	std::cout << "|Current Path: " << mTexturesMap[mTextureSize.x] << "\n";
 #endif
@@ -89,7 +90,7 @@ void DynamicSpriteComponent::Draw(SDL_Renderer* renderer)
 		renderer,										//< renderer
 		mTexture,										//< texture
 		nullptr,										//< source rect (which part of tex will be drawn)
-		&r,												//< dest rect (where will tex be drawn)
+		&mOwner->GetRelativeRect(), 					//< dest rect (where will tex be drawn)
 		-Math::ToDegrees(GetOwner()->GetRotation()),	//< rotation in degrees
 		nullptr,										//< point from which texture will be rotated (NULL if center)
 		SDL_FLIP_NONE									//< flip

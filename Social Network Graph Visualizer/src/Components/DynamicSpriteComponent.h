@@ -21,9 +21,9 @@ public:
 	void Draw(SDL_Renderer* renderer) override;
 
 	void SetDefaultSize(int size) { mDefaultSize = size; }
-	void AddTexture(std::string path);
+	virtual void AddTexture(std::string path, Uint8 alpha = 255);
 
-private:
+protected:
 	float mNormalizeFactor;
 	int mDefaultSize;		// Default Width Size.
 	int mCurrentSize;		// Current Texture Size.

@@ -5,11 +5,15 @@
 
 class Actor
 {
-//public:
-//	enum State
-//	{
-//		
-//	};
+public:
+	enum Behavior
+	{
+		None,
+		MouseOnTop,
+		MouseLeftClick,
+		MouseRightClick,
+		MouseDrag
+	};
 
 public:
 	Actor(class GraphicsEngine* graphics);
@@ -38,6 +42,9 @@ public:
 	const Vector2D<float>& GetPosition() const { return mPosition; }			//< Returns a const reference Vector with position.
 	const Vector2D<float>& GetFowardVector() const;								//< Returns a const reference Unitary Foward Vector.
 
+	SDL_Rect GetRelativeRect() const { return mRelativeRect; }					//!< Relative position (top-left corner) and size relative to screen (camera).
+	void SetRelativeRect(SDL_Rect rect) { mRelativeRect = rect; }
+
 	// Actors Code
 	// Camera Actor Code
 	virtual void Zoom(float step);
@@ -46,17 +53,19 @@ public:
 
 	// Node Actor Code
 	virtual const std::vector<class Node*> GetAdjacentNodes() { return { }; }
+	virtual Behavior GetBehavior() { return {}; }
 
 private:
 	class GraphicsEngine* mGraphicsEngine;		//!< Graphics Engine pointer
 
 	// Actor's information
 	Vector2D<float> mPosition;				//!< Actor's logical position
-	Vector2D<float> mRelativePos;			//!< Actor's position on screen (relative to camera)
 	Vector2D<float> mFowardVector;			//!< Unitary vector showing where the actor is pointing at
 	float mRotation;						//!< Actor's rotation (in radians)
 	float mScale;							//!< Actor's scale
-	float mRelativeScale;					//!< Actor's scale relative to camera.
+	bool mOnScreen;							//!< Tell's if actor is on screen.
+
+	SDL_Rect mRelativeRect;					//!< Relative position (top-left corner) and size relative to screen (camera).
 
 	// Containers
 	std::vector<Component*> mComponents;	//!< Actor's Components

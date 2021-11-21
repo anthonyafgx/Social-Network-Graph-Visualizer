@@ -167,7 +167,7 @@ void GraphicsEngine::RemoveSprite(SpriteComponent* sprite)
 
 // Getters / Setters
 
-SDL_Texture* GraphicsEngine::GetTexture(std::string path)
+SDL_Texture* GraphicsEngine::GetTexture(std::string path, Uint8 alpha)
 {
 	// Pointer that will be returned
 	SDL_Texture* tex = nullptr;
@@ -215,6 +215,12 @@ SDL_Texture* GraphicsEngine::GetTexture(std::string path)
 
 		// Destroy Surface
 		SDL_FreeSurface(surface);
+
+		// Apply alpha value
+		if (alpha != 255)
+		{
+			SDL_SetTextureAlphaMod(tex, alpha);
+		}
 
 		// Add tex to Map
 		mTextures.emplace(path, tex);

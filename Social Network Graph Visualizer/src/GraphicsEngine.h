@@ -32,7 +32,7 @@ public:
 	// Getters / Setters
 	SDL_Window* GetWindow() const { return mWindow; }
 	SDL_Renderer* GetRenderer() const { return mRenderer; }
-	SDL_Texture* GetTexture(std::string path);
+	SDL_Texture* GetTexture(std::string path, Uint8 alpha = 255);
 	SDL_Texture* GetTextureFromText(std::string text, SDL_Color& color);
 
 	const Vector2D<int> GetScreenCenterI() { return Vector2D<int>(mWindowWidth / 2, mWindowHeight / 2); }
@@ -40,6 +40,8 @@ public:
 
 	const Vector2D<float> GetCameraPos();
 	float GetCameraZoom();
+
+	class Mouse* GetMouse() const { return mMouse; }
 
 private:
 	// Loop Related Methods
