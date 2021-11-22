@@ -39,6 +39,7 @@ public:
 	void SetRotation(float rotation) { mRotation = rotation; }
 	float GetRotation() const { return mRotation; }
 	void SetPosition(const Vector2D<float>& position) { mPosition = position; }
+	void SetPositionFromRelative(const Vector2D<int> relative);
 	const Vector2D<float>& GetPosition() const { return mPosition; }			//< Returns a const reference Vector with position.
 	const Vector2D<float>& GetFowardVector() const;								//< Returns a const reference Unitary Foward Vector.
 

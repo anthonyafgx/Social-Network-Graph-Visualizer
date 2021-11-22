@@ -42,6 +42,7 @@ public:
 	float GetCameraZoom();
 
 	class Mouse* GetMouse() const { return mMouse; }
+	class Graph* GetGraph() const { return mGraph; }
 
 private:
 	// Loop Related Methods

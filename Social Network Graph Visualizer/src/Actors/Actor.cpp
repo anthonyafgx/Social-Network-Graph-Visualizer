@@ -110,6 +110,20 @@ void Actor::RemoveComponent(Component* comp)
 	}
 }
 
+void Actor::SetPositionFromRelative(Vector2D<int> relative)
+{
+	Vector2D<float> pos;
+	Vector2D<float> cameraPos = mGraphicsEngine->GetCameraPos();
+	Vector2D<float> screenCenter = mGraphicsEngine->GetScreenCenterF();
+	float zoom = mGraphicsEngine->GetCameraZoom();
+
+
+	pos.x = static_cast<float>(relative.x) - cameraPos.x * zoom + screenCenter.x;
+	pos.y = static_cast<float>(relative.y) - cameraPos.y * zoom + screenCenter.y;
+
+	SetPosition(pos);
+}
+
 const Vector2D<float>& Actor::GetFowardVector() const
 {
 	return Vector2D<float>{ cosf(mRotation), -sinf(mRotation) };

@@ -145,6 +145,7 @@
     <ClCompile Include="src\Components\DynamicLinesComponent.cpp" />
     <ClCompile Include="src\Components\DynamicTextComponent.cpp" />
     <ClCompile Include="src\Components\SpriteComponent.cpp" />
+    <ClCompile Include="src\JsonParser.cpp" />
     <ClCompile Include="src\Math.cpp" />
     <ClCompile Include="src\Actors\Actor.cpp" />
     <ClCompile Include="src\GraphicsEngine.cpp" />
@@ -164,12 +165,17 @@
     <ClInclude Include="src\Components\InputComponent.h" />
     <ClInclude Include="src\Components\MoveComponent.h" />
     <ClInclude Include="src\Components\SpriteComponent.h" />
+    <ClInclude Include="src\json.hpp" />
+    <ClInclude Include="src\JsonParser.h" />
     <ClInclude Include="src\Math.h" />
     <ClInclude Include="src\Actors\Actor.h" />
     <ClInclude Include="src\GraphicsEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\255.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="json_data.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

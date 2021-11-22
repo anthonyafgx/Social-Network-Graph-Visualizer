@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include "JsonParser.h"
 #include "Components/SpriteComponent.h"
 #include "Actors/Actor.h"
 #include "Actors/Camera.h"
@@ -367,16 +368,17 @@ void GraphicsEngine::LoadData()
 	mCamera = new Camera(this);
 	mGraph = new Graph(this);
 	
-	mGraph->InsertNode(5, "user 5");
-	mGraph->InsertNode(6, "user 6");
-	mGraph->InsertNode(7, "user 7");
-	mGraph->InsertNode(8, "user 8");
-	mGraph->AddRelation(5, 6);
-	//mGraph->AddRelation(5, 7);
+	ParseJson(this, "json_data.json");
+
+	//mGraph->InsertNode(5, "user 5");
+	//mGraph->InsertNode(6, "user 6");
+	//mGraph->InsertNode(7, "user 7");
+	//mGraph->InsertNode(8, "user 8");
+	//mGraph->AddRelation(5, 6);
 	//mGraph->AddRelation(5, 8);
-	mGraph->AddRelation(6, 7);
-	mGraph->AddRelation(6, 8);
-	mGraph->AddRelation(7, 8);
+	//mGraph->AddRelation(6, 7);
+	//mGraph->AddRelation(6, 8);
+	//mGraph->AddRelation(7, 8);
 }
 
 void GraphicsEngine::UnloadData()

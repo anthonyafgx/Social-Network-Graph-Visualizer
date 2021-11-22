@@ -97,11 +97,23 @@ void Node::ActorInput(const Uint8* state)
 
 void Node::UpdateActor(float deltaTime)
 {
+	SDL_Rect mousePos = GetGraphicsEngine()->GetMouse()->GetRelativeRect();
+	Vector2D<int> pos{ static_cast<int>(mousePos.x), static_cast<int>(mousePos.y) };
 	// Detect mouse drags
 	if (mBehavior == Actor::MouseDrag)
 	{
-		;
+		
+		SetPositionFromRelative(pos);
+		
+		
 	}
+	if (mId == 5)
+	{
+		//std::cout << "Node Relative Pos: " << GetRelativeRect().x + GetRelativeRect().w / 2 << "," << GetRelativeRect().y + GetRelativeRect().h / 2 << "\n";
+		//std::cout << "Mouse Relative Pos: " << mousePos.x << ", " << mousePos.y << "\t";
+		//std::cout << "Camera Zoom: " << GetGraphicsEngine()->GetCameraZoom() << "\t";
+	}
+
 
 #ifdef NODE_DEBUG
 	if (mBehavior == Node::MouseOnTop)
