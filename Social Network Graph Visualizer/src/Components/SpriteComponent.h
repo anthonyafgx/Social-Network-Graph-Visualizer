@@ -12,6 +12,8 @@ public:
 
 	virtual void Draw(SDL_Renderer* renderer);
 	void SetTexture(std::string path, Uint8 alpha = 255);
+	void SetTexture(SDL_Texture* tex);
+	SDL_Texture* GetTexture(std::string path, Uint8 alpha = 222);	//< Get Texture Pointer from game without making it the current tex
 
 	// Setters / Getters
 	int GetDrawOrder() const { return mDrawOrder; }

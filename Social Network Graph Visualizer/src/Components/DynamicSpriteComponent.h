@@ -16,6 +16,23 @@
 class DynamicSpriteComponent : public SpriteComponent
 {
 public:
+	struct RGB
+	{
+		int r, g, b;
+
+		bool equals(RGB col)
+		{
+			return (r == col.r) && (g == col.g) && (b == col.b);
+		}
+	};
+
+	std::unordered_map<std::string, RGB> mColors = {
+		{"Default", {153, 195, 250} },
+		{"LeftClick", {250, 207, 127} }
+	};
+
+
+public:
 	DynamicSpriteComponent(class Actor* owner, int drawOrder = 100);
 
 	void Draw(SDL_Renderer* renderer) override;
@@ -27,6 +44,7 @@ protected:
 	float mNormalizeFactor;
 	int mDefaultSize;		// Default Width Size.
 	int mCurrentSize;		// Current Texture Size.
+	RGB mCurrentColor;		// Current Color
 
 	/*
 	* Textures of different sizes map.

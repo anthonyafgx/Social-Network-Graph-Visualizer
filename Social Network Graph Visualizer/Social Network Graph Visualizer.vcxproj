@@ -138,6 +138,7 @@
     <ClCompile Include="src\Actors\Camera.cpp" />
     <ClCompile Include="src\Components\CameraInputComponent.cpp" />
     <ClCompile Include="src\Components\Component.cpp" />
+    <ClCompile Include="src\Components\DynamicMaskComponent.cpp" />
     <ClCompile Include="src\Components\DynamicOpacityComponent.cpp" />
     <ClCompile Include="src\Components\DynamicSpriteComponent.cpp" />
     <ClCompile Include="src\Components\InputComponent.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="src\Components\CameraInputComponent.h" />
     <ClInclude Include="src\Components\Component.h" />
     <ClInclude Include="src\Components\DynamicLinesComponent.h" />
+    <ClInclude Include="src\Components\DynamicMaskComponent.h" />
     <ClInclude Include="src\Components\DynamicOpacityComponent.h" />
     <ClInclude Include="src\Components\DynamicSpriteComponent.h" />
     <ClInclude Include="src\Components\DynamicTextComponent.h" />

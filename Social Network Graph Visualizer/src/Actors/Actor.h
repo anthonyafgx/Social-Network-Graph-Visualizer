@@ -56,6 +56,10 @@ public:
 	virtual const std::vector<class Node*> GetAdjacentNodes() { return { }; }
 	virtual Behavior GetBehavior() { return {}; }
 
+	// Components code
+	void SetDynamicTexSize(int size) { mDynamicTexSize = size; }
+	int GetDynamicTexSize() const { return mDynamicTexSize; }
+
 private:
 	class GraphicsEngine* mGraphicsEngine;		//!< Graphics Engine pointer
 
@@ -70,4 +74,7 @@ private:
 
 	// Containers
 	std::vector<Component*> mComponents;	//!< Actor's Components
+
+	// Components general info
+	int mDynamicTexSize;					//!< Size of the texture being used by DynamicSpriteComponent.
 };

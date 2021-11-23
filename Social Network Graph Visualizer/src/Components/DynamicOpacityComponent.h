@@ -16,4 +16,11 @@ public:
 	void Draw(SDL_Renderer* renderer) override;
 	// The last number is adjustable (alpha value).
 	void AddTexture(std::string path, Uint8 alpha = 255) override { DynamicSpriteComponent::AddTexture(path, 125); }
+
+	void SetColor(int r, int g, int b);
+	void SetOpacity(Uint8 opacity) { mOpacity = opacity; }
+
+private:
+	int mR, mG, mB;			//< color
+	Uint8 mOpacity;			//< From 0 to 255.
 };

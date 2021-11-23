@@ -7,11 +7,11 @@
 
 using json = nlohmann::json;
 
+
 void ParseJson(GraphicsEngine* graphics, const char* jsonPath)
 {
 	std::ifstream file;
 	file.open(jsonPath, std::ios::in);
-
 	json j;
 
 	try

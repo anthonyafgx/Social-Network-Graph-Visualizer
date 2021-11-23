@@ -35,8 +35,22 @@ void Graph::InsertNode(int id, std::string name)
 	// Create node
 	Node* node = new Node(GetGraphicsEngine(), this, id, name);
 
+	// Check if colliding
+	int attempts = 20;
+	while (IsColliding(node) && attempts != 0)
+	{
+		--attempts;
+		Vector2D<float> newPos(		// NOTE: Random Numbers are adjustable.
+			GetGraphicsEngine()->GetScreenCenterF().x + Math::Random(-250, 250),
+			GetGraphicsEngine()->GetScreenCenterF().y + Math::Random(-250, 250)
+		);
+		node->SetPosition(newPos);
+	}
+
 	// Add node to {mNodes} map
 	mNodes[id] = node;
+
+	std::cout << "INFO (InsertNode): Node " << id << " successfully inserted.\n";
 }
 
 void Graph::RemoveNode(int id)
@@ -285,8 +299,9 @@ void Graph::RepositionNode(Node* a, Node* b)
 		return;
 	}
 
-	int attempts = 3;	// (modifiable) max number of attempts the loop can make to fix the node
+	int attempts = 20;	// (modifiable) max number of attempts the loop can make to fix the node
 
+	Node* movedNode = nullptr;
 	// Reposition Nodes
 	do
 	{
@@ -309,6 +324,8 @@ void Graph::RepositionNode(Node* a, Node* b)
 
 			// Set position respect to Node A's position
 			b->SetPosition(vec + a->GetPosition());
+
+			movedNode = b;
 		}
 		else if (a->mAdjacent.empty())
 		{
@@ -320,12 +337,37 @@ void Graph::RepositionNode(Node* a, Node* b)
 
 			// Set position respect to Node B's position
 			a->SetPosition(vec + b->GetPosition());
+
+			movedNode = a;
 		}
-	} while (IsColliding(a, b) && attempts != 0);
+	} while (IsColliding(movedNode) && attempts != 0);
 
 }
 
-bool Graph::IsColliding(Node* a, Node* b)
+/* @return true if node [a] is colliding with any node in the graph*/
+bool Graph::IsColliding(Node* a)
+{
+	if (!a)	// if nullptr
+	{
+		return false;
+	}
+
+	for (auto itr = mNodes.begin(); itr != mNodes.end(); ++itr)
+	{
+		if (itr->second != a)	// check all nodes that are not Node [a]
+		{
+			if (AreColliding(a, itr->second))
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+/* @return true if nodes [a] and [b] are colliding */
+bool Graph::AreColliding(Node* a, Node* b)
 {
 	if (!(a && b))	// if one or both nodes == nullptr
 	{

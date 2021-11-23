@@ -7,6 +7,7 @@
 #include "../Components/DynamicOpacityComponent.h"
 #include "../Components/DynamicLinesComponent.h"
 #include "../Components/DynamicTextComponent.h"
+#include "../Components/DynamicMaskComponent.h"
 #include <string>
 #include <iostream>
 
@@ -23,11 +24,11 @@ Node::Node(GraphicsEngine* graphics, Graph* graph, int id, std::string name) :
 	mBehavior(Node::None)
 {  
 	DynamicSpriteComponent* sprite = new DynamicSpriteComponent(this);
-	sprite->AddTexture("Assets/x32/blue.png");
-	sprite->AddTexture("Assets/x64/blue.png");
-	sprite->AddTexture("Assets/x128/blue.png");
-	sprite->AddTexture("Assets/x256/blue.png");
-	sprite->AddTexture("Assets/x512/blue.png");
+	sprite->AddTexture("Assets/x32/circle.png");
+	sprite->AddTexture("Assets/x64/circle.png");
+	sprite->AddTexture("Assets/x128/circle.png");
+	sprite->AddTexture("Assets/x256/circle.png");
+	sprite->AddTexture("Assets/x512/circle.png");
 	sprite->SetDefaultSize(mDiameter);
 
 	DynamicOpacityComponent* opacity = new DynamicOpacityComponent(this);
@@ -36,6 +37,8 @@ Node::Node(GraphicsEngine* graphics, Graph* graph, int id, std::string name) :
 	opacity->AddTexture("Assets/x128/white_opacity.png");
 	opacity->AddTexture("Assets/x256/white_opacity.png");
 	opacity->AddTexture("Assets/x512/white_opacity.png");
+
+	new DynamicMaskComponent(this);
 	
 	new DynamicLinesComponent(this);				//< Draws relation lines.
 

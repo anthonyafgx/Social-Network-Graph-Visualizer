@@ -350,6 +350,7 @@ void GraphicsEngine::UpdateGame()
 
 void GraphicsEngine::GenerateOutput()
 {
+	SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_NONE);
 	SDL_SetRenderDrawColor(mRenderer, 240, 240, 245, 255);
 	SDL_RenderClear(mRenderer);
 
@@ -369,7 +370,6 @@ void GraphicsEngine::LoadData()
 	mGraph = new Graph(this);
 	
 	ParseJson(this, "json_data.json");
-
 	//mGraph->InsertNode(5, "user 5");
 	//mGraph->InsertNode(6, "user 6");
 	//mGraph->InsertNode(7, "user 7");

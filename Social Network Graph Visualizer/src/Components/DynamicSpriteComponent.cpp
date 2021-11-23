@@ -78,6 +78,7 @@ void DynamicSpriteComponent::Draw(SDL_Renderer* renderer)
 
 	// STEP 4: Update Actor's Rect.
 	mOwner->SetRelativeRect(SDL_Rect{ x, y, width, height });
+	mOwner->SetDynamicTexSize(mTextureSize.x);
 
 #ifdef DYNAMIC_SPRITE_DEBUG
 	std::cout << "Texture Rect Size: " << width << ", " << height << "\t";
@@ -85,7 +86,7 @@ void DynamicSpriteComponent::Draw(SDL_Renderer* renderer)
 	std::cout << "|Current Path: " << mTexturesMap[mTextureSize.x] << "\n";
 #endif
 
-	// Render
+	// STEP 5: Render
 	SDL_RenderCopyEx(
 		renderer,										//< renderer
 		mTexture,										//< texture

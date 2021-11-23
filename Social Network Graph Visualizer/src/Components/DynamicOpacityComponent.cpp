@@ -10,8 +10,22 @@ DynamicOpacityComponent::DynamicOpacityComponent(Actor* owner, int drawOrder) :
 
 }
 
+void DynamicOpacityComponent::SetColor(int r, int g, int b)
+{
+	// Colors can't be greater than 255.
+	mR = (r > 255) ? 255 : r;
+	mG = (g > 255) ? 255 : g;
+	mB = (b > 255) ? 255 : b;
+
+	// Colors can't be negative
+	mR = (r < 0) ? 0 : r;
+	mG = (g < 0) ? 0 : g;
+	mB = (b < 0) ? 0 : b;
+}
+
 void DynamicOpacityComponent::Draw(SDL_Renderer* renderer)
 {
+	/* DRAW WHITE WHEN MOUSE ON TOP */
 	// Get Actor's Behavior respect to mouse
 	const Actor::Behavior behavior = mOwner->GetBehavior();
 

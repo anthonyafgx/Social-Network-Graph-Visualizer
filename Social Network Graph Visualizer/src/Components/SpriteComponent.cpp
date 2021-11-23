@@ -53,19 +53,36 @@ void SpriteComponent::Draw(SDL_Renderer* renderer)
 	);
 }
 
-void SpriteComponent::SetTexture(std::string path, Uint8 alpha)
+SDL_Texture* SpriteComponent::GetTexture(std::string path, Uint8 alpha)
 {
 	SDL_Texture* tex = mOwner->GetGraphicsEngine()->GetTexture(path, alpha);
-	
+
 	// if no texture was found
 	if (!tex)
 	{
 		SDL_Log("No texture was found");
-		return;
+		return nullptr;
+	}
+
+	return tex;
+}
+
+void SpriteComponent::SetTexture(std::string path, Uint8 alpha)
+{
+	SDL_Texture* tex = GetTexture(path, alpha);
+
+	SetTexture(tex);
+};
+
+void SpriteComponent::SetTexture(SDL_Texture* tex)
+{
+	if (!tex)
+	{
+		SDL_Log("No texture was found");
 	}
 
 	mTexture = tex;
 
 	// Get texture's size (in pixels)
 	SDL_QueryTexture(tex, NULL, NULL, &mTextureSize.x, &mTextureSize.y);
-};
+}
