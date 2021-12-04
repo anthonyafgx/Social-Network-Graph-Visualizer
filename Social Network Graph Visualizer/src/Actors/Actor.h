@@ -15,6 +15,14 @@ public:
 		MouseDrag
 	};
 
+	enum EColor
+	{
+		DEFAULT,
+		GREEN,
+		YELLOW,
+		RED
+	};
+
 public:
 	Actor(class GraphicsEngine* graphics);
 	virtual ~Actor();
@@ -46,6 +54,9 @@ public:
 	SDL_Rect GetRelativeRect() const { return mRelativeRect; }					//!< Relative position (top-left corner) and size relative to screen (camera).
 	void SetRelativeRect(SDL_Rect rect) { mRelativeRect = rect; }
 
+	void SetColor(EColor color) { mColor = color; }
+	EColor GetColor() const { return mColor; }
+
 	// Actors Code
 	// Camera Actor Code
 	virtual void Zoom(float step);
@@ -61,7 +72,7 @@ public:
 	int GetDynamicTexSize() const { return mDynamicTexSize; }
 
 private:
-	class GraphicsEngine* mGraphicsEngine;		//!< Graphics Engine pointer
+	class GraphicsEngine* mGraphicsEngine;	//!< Graphics Engine pointer
 
 	// Actor's information
 	Vector2D<float> mPosition;				//!< Actor's logical position
@@ -77,4 +88,5 @@ private:
 
 	// Components general info
 	int mDynamicTexSize;					//!< Size of the texture being used by DynamicSpriteComponent.
+	EColor mColor;							//!< Color of DynamicMaskComponent.
 };

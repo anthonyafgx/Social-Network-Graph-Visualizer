@@ -62,6 +62,12 @@ void Graph::RemoveNode(int id)
 		return;
 	}
 
+	// Remove all relations.
+	while (!mNodes[id]->mAdjacent.empty())
+	{
+		RemoveRelation(id, mNodes[id]->mAdjacent.back()->GetId());
+	}
+
 	// Destroy and Remove Node.
 	delete mNodes[id];
 	mNodes.erase(id);
@@ -310,7 +316,7 @@ void Graph::RepositionNode(Node* a, Node* b)
 
 		// Generate random values
 		float randomAngle = Math::Random(0, Math::TwoPi);	//< random angle (in radians).
-		float randomDistance = Math::Random(3, 5);			//< (modifiable) distance from one node to another (n times diameter).
+		float randomDistance = Math::Random(4, 6);			//< (modifiable) distance from one node to another (n times diameter).
 
 		// Rule 1: If one of the nodes has no relations, move near the other node.
 		if (b->mAdjacent.empty())

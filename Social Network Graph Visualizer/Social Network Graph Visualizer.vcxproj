@@ -70,12 +70,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\include;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\lib\x64;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.18\include;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.18\lib\x64;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\include;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.12-VC\lib\x64;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.18\include;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\include;$(IncludePath)</IncludePath>
+    <LibraryPath>D:\Anthony Programas\Dev\Visual Studio\SDL2-2.0.18\lib\x64;D:\Anthony Programas\Dev\Visual Studio\SDL2_ttf-2.0.15\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -151,6 +151,14 @@
     <ClCompile Include="src\Actors\Actor.cpp" />
     <ClCompile Include="src\GraphicsEngine.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\UI\ImGUI\imgui.cpp" />
+    <ClCompile Include="src\UI\ImGUI\imgui_demo.cpp" />
+    <ClCompile Include="src\UI\ImGUI\imgui_draw.cpp" />
+    <ClCompile Include="src\UI\ImGUI\imgui_impl_sdl.cpp" />
+    <ClCompile Include="src\UI\ImGUI\imgui_impl_sdlrenderer.cpp" />
+    <ClCompile Include="src\UI\ImGUI\imgui_tables.cpp" />
+    <ClCompile Include="src\UI\ImGUI\imgui_widgets.cpp" />
+    <ClCompile Include="src\UI\UserInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Actors\Graph.h" />
@@ -172,6 +180,15 @@
     <ClInclude Include="src\Math.h" />
     <ClInclude Include="src\Actors\Actor.h" />
     <ClInclude Include="src\GraphicsEngine.h" />
+    <ClInclude Include="src\UI\ImGUI\imconfig.h" />
+    <ClInclude Include="src\UI\ImGUI\imgui.h" />
+    <ClInclude Include="src\UI\ImGUI\imgui_impl_sdl.h" />
+    <ClInclude Include="src\UI\ImGUI\imgui_impl_sdlrenderer.h" />
+    <ClInclude Include="src\UI\ImGUI\imgui_internal.h" />
+    <ClInclude Include="src\UI\ImGUI\imstb_rectpack.h" />
+    <ClInclude Include="src\UI\ImGUI\imstb_textedit.h" />
+    <ClInclude Include="src\UI\ImGUI\imstb_truetype.h" />
+    <ClInclude Include="src\UI\UserInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\255.png" />

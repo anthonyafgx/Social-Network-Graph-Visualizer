@@ -6,6 +6,7 @@
 class Node : public Actor
 {
 public:
+	
 	// TO DO: Write Behavior and Actor's Input to Actor.h
 	// Moved Behavior to Actor.h 
 	/*enum Behavior
@@ -33,6 +34,7 @@ public:
 	int GetDiameter() const { return mDiameter; }
 	const std::vector<class Node*> GetAdjacentNodes() override { return mAdjacent; }
 	Behavior GetBehavior() override { return mBehavior; }
+	void SetColorOverride(bool value) { mColorOverride = value; }
 
 public:
 	// Graph Variables
@@ -46,5 +48,9 @@ private:
 
 	// Engine Variables
 	int mDiameter;					//< Node's logical diameter (non relative to camera).
-	Behavior mBehavior;				//< Node's behavior depending on mouse
+	Behavior mBehavior;				//< Node's behavior depending on mouse.
+
+	// Color Override
+	bool mColorOverride;			//< Skips the recoloring part of ProcessInput().
+	bool mHighlightingNodes;		//< Tells if node is currently highliting nodes.
 };

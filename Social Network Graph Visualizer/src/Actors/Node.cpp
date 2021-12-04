@@ -21,7 +21,9 @@ Node::Node(GraphicsEngine* graphics, Graph* graph, int id, std::string name) :
 	mId(id),
 	mName(name),
 	mDiameter(64),	//< Diameter of the node, used to collisions and graphics (in pixels)
-	mBehavior(Node::None)
+	mBehavior(Node::None),
+	mColorOverride(false),
+	mHighlightingNodes(false)
 {  
 	DynamicSpriteComponent* sprite = new DynamicSpriteComponent(this);
 	sprite->AddTexture("Assets/x32/circle.png");
@@ -73,28 +75,51 @@ void Node::ActorInput(const Uint8* state)
 
 	mouseCollision = vec.LengthSq() <= nodeRadius * nodeRadius;
 
-	if (mouseCollision)
+	if (mColorOverride == false)
 	{
-		// Detect Left Click or Drags
-		Mouse::State leftButton = mouse->GetLeftState();	//< Mouse's left button state
-		Mouse::State rightButton = mouse->GetRightState();	//< Mouse's right button state
+		if (mouseCollision)
+		{
+			// Detect Left Click or Drags
+			Mouse::State leftButton = mouse->GetLeftState();	//< Mouse's left button state
+			Mouse::State rightButton = mouse->GetRightState();	//< Mouse's right button state
 
-		if (leftButton == Mouse::None)	// if left button not clicked
-		{
-			mBehavior = Actor::MouseOnTop;
+			if (leftButton == Mouse::None)	// if left button not clicked
+			{
+				mBehavior = Actor::MouseOnTop;
+			}
+			else if (leftButton == Mouse::Pressed)
+			{
+				mBehavior = Actor::MouseLeftClick;
+				SetColor(EColor::RED);
+
+				// HIGHLIGHT Adjacent Nodes (Recolor YELLOW)
+				for (auto& node : mAdjacent)
+				{
+					mHighlightingNodes = true;
+					node->SetColorOverride(true);
+					node->SetColor(EColor::YELLOW);
+				}
+			}
+			else if (leftButton == Mouse::Drag)
+			{
+				mBehavior = Actor::MouseDrag;
+			}
 		}
-		else if (leftButton == Mouse::Pressed)
+		else
 		{
-			mBehavior = Actor::MouseLeftClick;
+			mBehavior = Actor::None;
+			SetColor(EColor::DEFAULT);
+			
+			if (mHighlightingNodes)
+			{
+				// UNHIGHLIGHT Adjacent Nodes
+				for (auto& node : mAdjacent)
+				{
+					node->SetColorOverride(false);
+				}
+				mHighlightingNodes = false;
+			}
 		}
-		else if (leftButton == Mouse::Drag)
-		{
-			mBehavior = Actor::MouseDrag;
-		}
-	}
-	else
-	{
-		mBehavior = Actor::None;
 	}
 }
 
@@ -106,7 +131,7 @@ void Node::UpdateActor(float deltaTime)
 	if (mBehavior == Actor::MouseDrag)
 	{
 		
-		SetPositionFromRelative(pos);
+		//SetPositionFromRelative(pos);
 		
 		
 	}

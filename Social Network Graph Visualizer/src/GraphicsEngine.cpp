@@ -9,8 +9,14 @@
 #include "Actors/Graph.h"
 #include "Actors/Node.h"
 #include "Actors/Mouse.h"
+#include "UI/ImGUI/imgui.h"
+#include "UI/ImGUI/imgui_impl_sdl.h"
+#include "UI/ImGUI/imgui_impl_sdlrenderer.h"
+#include <stdio.h>
+#include "UI/UserInterface.h"
 #include <iostream>
 
+//#define MULTIPLE_WINDOWS		//< define if using multiple windows
 #define FPS_CAP
 //#define SHOW_FPS
 
@@ -34,15 +40,15 @@ bool GraphicsEngine::Initialize()
 		SDL_Log("Unable to initialize: %s", SDL_GetError());
 		return false;
 	}
-
 	// Create Window
+	SDL_WindowFlags windowFlags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
 	mWindow = SDL_CreateWindow(
 		"Dev GraphicsEngine - anthonyafgx studios",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		mWindowWidth,
 		mWindowHeight,
-		0
+		windowFlags
 	);
 
 	if (!mWindow)
@@ -62,8 +68,6 @@ bool GraphicsEngine::Initialize()
 	{
 		SDL_Log("Unable to create renderer: %s", SDL_GetError());
 	}
-
-
 
 	// SDL Image
 	int imgFlags = IMG_INIT_PNG | IMG_INIT_JPG;
@@ -92,6 +96,15 @@ bool GraphicsEngine::Initialize()
 		SDL_Log("Unable to open font: %s\n", TTF_GetError());
 	}
 
+	// ImGUI
+	//mUI = new UserInterface(this);
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+
+	ImGui_ImplSDL2_InitForSDLRenderer(mWindow);
+	ImGui_ImplSDLRenderer_Init(mRenderer);
+
 	LoadData();
 
 	return true;
@@ -110,7 +123,7 @@ void GraphicsEngine::RunLoop()
 void GraphicsEngine::Shutdown()
 {
 	UnloadData();
-
+	//delete mUI;
 	IMG_Quit();
 	TTF_Quit();
 	SDL_DestroyWindow(mWindow);
@@ -289,6 +302,19 @@ void GraphicsEngine::ProcessInput()
 
 	while (SDL_PollEvent(&sdlEvent))
 	{
+#ifdef MULTIPLE_WINDOWS
+		switch (sdlEvent.type)
+		{
+		case SDL_WINDOWEVENT:
+			if (sdlEvent.window.event == SDL_WINDOWEVENT_CLOSE)
+			{
+				mIsRunning = false;
+			}
+			break;
+		default:
+			break;
+		}
+#else
 		switch (sdlEvent.type)
 		{
 		case SDL_QUIT:
@@ -297,6 +323,7 @@ void GraphicsEngine::ProcessInput()
 		default:
 			break;
 		}
+#endif
 	}
 
 	// Process Input
@@ -359,6 +386,7 @@ void GraphicsEngine::GenerateOutput()
 	{
 		sprite->Draw(mRenderer);
 	}
+
 	SDL_RenderPresent(mRenderer);
 }
 
@@ -374,11 +402,11 @@ void GraphicsEngine::LoadData()
 	//mGraph->InsertNode(6, "user 6");
 	//mGraph->InsertNode(7, "user 7");
 	//mGraph->InsertNode(8, "user 8");
+	//mGraph->InsertNode(9, "user 9");
 	//mGraph->AddRelation(5, 6);
+	//mGraph->AddRelation(5, 7);
 	//mGraph->AddRelation(5, 8);
-	//mGraph->AddRelation(6, 7);
-	//mGraph->AddRelation(6, 8);
-	//mGraph->AddRelation(7, 8);
+	//mGraph->AddRelation(5, 9);
 }
 
 void GraphicsEngine::UnloadData()

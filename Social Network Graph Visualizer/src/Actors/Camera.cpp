@@ -20,8 +20,8 @@ Camera::Camera(GraphicsEngine* graphics) :
 	input->SetDownKey(SDL_SCANCODE_DOWN);
 	input->SetLeftKey(SDL_SCANCODE_LEFT);
 	input->SetRightKey(SDL_SCANCODE_RIGHT);
-	input->SetZoomInKey(SDL_SCANCODE_W);
-	input->SetZoomOutKey(SDL_SCANCODE_S);
+	input->SetZoomInKey(SDL_SCANCODE_KP_PLUS);
+	input->SetZoomOutKey(SDL_SCANCODE_KP_MINUS);
 
 #ifdef DEBUG_CAMERA
 	SDL_Log("Camera Position: %f, %f", GetPosition().x, GetPosition().y);

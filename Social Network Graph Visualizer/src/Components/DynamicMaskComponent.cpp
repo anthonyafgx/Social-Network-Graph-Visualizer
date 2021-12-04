@@ -2,6 +2,7 @@
 #include "../Actors/Actor.h"
 #include "../GraphicsEngine.h"
 #include <iostream>
+#include "../Actors/Node.h"
 
 DynamicMaskComponent::DynamicMaskComponent(Actor* owner, int drawOrder) :
 	DynamicSpriteComponent(owner, drawOrder)
@@ -9,7 +10,9 @@ DynamicMaskComponent::DynamicMaskComponent(Actor* owner, int drawOrder) :
 	// MODIFIABLE VALUES
 	// colors (modifiable)
 	const RGB DEFAULT = { 153, 195, 250 };
-	const RGB LEFTCLICK = { 250, 207, 127 };
+	const RGB YELLOW = { 250, 207, 127 };
+	const RGB GREEN = { 102, 250, 172 };
+	const RGB RED = { 250, 151, 140 };
 
 	// available texture sizes (modifiable)
 	std::vector<int> SIZES = { 32, 64, 128, 256, 512 };
@@ -21,18 +24,28 @@ DynamicMaskComponent::DynamicMaskComponent(Actor* owner, int drawOrder) :
 	for (auto itr = SIZES.begin(); itr != SIZES.end(); ++itr)
 	{
 		// RECOLOR DEFAULT
-		defaultPath = "Assets/x" + std::to_string(*(itr)) + "/mask_a.png";								// get path
-		mMasksMap["DEFAULT"][*(itr)] = GetTexture(defaultPath);											// add to map
-		SDL_SetTextureColorMod(mMasksMap["DEFAULT"][*(itr)], DEFAULT.r, DEFAULT.g, DEFAULT.b);			// recolor tex
+		defaultPath = "Assets/x" + std::to_string(*(itr)) + "/mask_a.png";									// get path
+		mMasksMap[Node::EColor::DEFAULT][*(itr)] = GetTexture(defaultPath);									// add to map
+		SDL_SetTextureColorMod(mMasksMap[Node::EColor::DEFAULT][*(itr)], DEFAULT.r, DEFAULT.g, DEFAULT.b);	// recolor tex
 
-		// RECOLOR LEFTCLICK
-		defaultPath = "Assets/x" + std::to_string(*(itr)) + "/mask_b.png";								// get path
-		mMasksMap["LEFTCLICK"][*(itr)] = GetTexture(defaultPath);										// add to map
-		SDL_SetTextureColorMod(mMasksMap["LEFTCLICK"][*(itr)], LEFTCLICK.r, LEFTCLICK.g, LEFTCLICK.b);	// recolor tex
+		// RECOLOR GREEN
+		defaultPath = "Assets/x" + std::to_string(*(itr)) + "/mask_b.png";									// get path
+		mMasksMap[Node::EColor::GREEN][*(itr)] = GetTexture(defaultPath);									// add to map
+		SDL_SetTextureColorMod(mMasksMap[Node::EColor::GREEN][*(itr)], GREEN.r, GREEN.g, GREEN.b);			// recolor tex
+
+		// RECOLOR RED
+		defaultPath = "Assets/x" + std::to_string(*(itr)) + "/mask_c.png";									// get path
+		mMasksMap[Node::EColor::RED][*(itr)] = GetTexture(defaultPath);										// add to map
+		SDL_SetTextureColorMod(mMasksMap[Node::EColor::RED][*(itr)], RED.r, RED.g, RED.b);					// recolor tex
+
+		// RECOLOR YELLOW
+		defaultPath = "Assets/x" + std::to_string(*(itr)) + "/mask_d.png";									// get path
+		mMasksMap[Node::EColor::YELLOW][*(itr)] = GetTexture(defaultPath);									// add to map
+		SDL_SetTextureColorMod(mMasksMap[Node::EColor::YELLOW][*(itr)], YELLOW.r, YELLOW.g, YELLOW.b);				// recolor tex
 	}
 
 	// Set default tex
-	SetTexture(mMasksMap["DEFAULT"][64]);
+	SetTexture(mMasksMap[Node::EColor::DEFAULT][64]);
 }
 
 void DynamicMaskComponent::Draw(SDL_Renderer* renderer)
@@ -46,14 +59,11 @@ void DynamicMaskComponent::Draw(SDL_Renderer* renderer)
 
 	// Choose Color & Corresponding Tex
 	const int texSize = mOwner->GetDynamicTexSize();
-	const Actor::Behavior behavior = mOwner->GetBehavior();
-	if (behavior == Actor::MouseLeftClick)
+	const Actor::EColor color = mOwner->GetColor();
+
+	if (mTexture != mMasksMap[color][texSize])
 	{
-		SetTexture(mMasksMap["LEFTCLICK"][texSize]);
-	}
-	else if (behavior == Actor::None)
-	{
-		SetTexture(mMasksMap["DEFAULT"][texSize]);
+		SetTexture(mMasksMap[color][texSize]);
 	}
 
 	// Draw

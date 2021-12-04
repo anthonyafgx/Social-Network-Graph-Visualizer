@@ -1,8 +1,11 @@
 #pragma once
 #include "DynamicSpriteComponent.h"
+#include "../Actors/Node.h"
 
 class DynamicMaskComponent : public DynamicSpriteComponent
 {
+public:
+	
 public:
 	DynamicMaskComponent(class Actor* owner, int drawOrder = 125);
 
@@ -19,6 +22,6 @@ private:
 	};
 
 private:
-	// mMasksMap[string SITUATION][int TEXTURE SIZE] ex: mMasksMap["LEFTCLICK"][64] = SDL_Texture*
-	std::unordered_map<std::string, std::unordered_map<int, SDL_Texture*> > mMasksMap;
+	// mMasksMap[string COLOR][int TEXTURE SIZE] ex: mMasksMap[EColor::GREEN][64] = SDL_Texture*
+	std::unordered_map<Node::EColor, std::unordered_map<int, SDL_Texture*> > mMasksMap;
 };
