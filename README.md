@@ -4,5 +4,5 @@ This proyect consists of a Social-Network Graph Visualizer with some runtime-con
 [README IN PROGRESS]
 
 ## Screenshots
-5/DEC/2021: 
-![Alt text](/Social-Network-Graph-Visualizer/Social Network Graph Visualizer/screenshots/GUI and node relations.png?raw=true "Optional Title")
+_5/DEC/2021_: Graphical User Interface and Node 9 with it's adjacent nodes highlighted.
+![GUI and node relations](https://user-images.githubusercontent.com/89319333/144737623-c55385e6-96a5-487a-ab7e-aaf7617fe5ae.png)
