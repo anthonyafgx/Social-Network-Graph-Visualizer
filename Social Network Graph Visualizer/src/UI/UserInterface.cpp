@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include <stdio.h>
 #include "../GraphicsEngine.h"
+#include "../Actors/Graph.h"
 #include <string>
 
 //#define ADITIONAL_WINDOW		//< Tells if another window will be made for the UI.
@@ -84,18 +85,99 @@ void UserInterface::Update()
 	ImGui::ShowDemoWindow();
 
 	// WINDOW EDITING CODE
-	ImGui::Begin("Add Node");
+	ImGui::Begin("Control de Grafo");
+	
+	if (ImGui::TreeNode("Insertar Nodo"))
+	{
+		ImGui::PushItemWidth(32);
+		static int id = 0; ImGui::InputInt("ID", &id, 0);
+		ImGui::PopItemWidth();
+		// clamp id
+		id = (id > 255) ? 255 : id;
+		id = (id < 0) ? 0 : id;
+
+		ImGui::PushItemWidth(128);
+		static char name[16]; ImGui::InputText("Nombre", name, 16);
+		ImGui::PopItemWidth();
+
+		if (ImGui::Button("Insertar"))
+		{
+			mGraphics->GetGraph()->InsertNode(id, name);
+		}
+
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Remover Nodo"))
+	{
+		ImGui::PushItemWidth(32);
+		static int id = 0; ImGui::InputInt("ID", &id, 0);
+		ImGui::PopItemWidth();
+
+		if (ImGui::Button("Remover"))
+		{
+			mGraphics->GetGraph()->RemoveNode(id);
+		}
+
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Verificar Nodo"))
+	{
+		ImGui::PushItemWidth(32);
+		static int id = 0; ImGui::InputInt("ID", &id, 0);
+		ImGui::PopItemWidth();
+
+		if (ImGui::Button("Verificar"))
+		{
+			mGraphics->GetGraph()->VerifyNode(id);
+		}
+
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Relaciones"))
+	{
+		ImGui::PushItemWidth(32);
+		static int idA = 0; ImGui::InputInt("ID A", &idA, 0);
+		ImGui::SameLine();
+		static int idB = 0; ImGui::InputInt("ID B", &idB, 0);
+		ImGui::PopItemWidth();
+
+		if (ImGui::Button("Crear"))
+		{
+			mGraphics->GetGraph()->AddRelation(idA, idB);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Remover"))
+		{
+			mGraphics->GetGraph()->RemoveRelation(idA, idB);
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Verificar"))
+		{
+			mGraphics->GetGraph()->HighlightRelation(idA, idB);
+		}
+
+		ImGui::TreePop();
+	}
+	
 
 	ImGui::End();
 
 	// Rendering Code
-	ImGui::Render();
-	SDL_SetRenderDrawColor(mRenderer, 240, 240, 245, 255);
-	SDL_RenderClear(mRenderer);
-	ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
-	SDL_RenderPresent(mRenderer);
+	//ImGui::Render();
+	//SDL_SetRenderDrawColor(mRenderer, 240, 240, 245, 255);
+	//SDL_RenderClear(mRenderer);
+	//ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
+	//SDL_RenderPresent(mRenderer);
 }
 
+void UserInterface::Draw()
+{
+	ImGui::Render();
+	ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
+}
 
 void UserInterface::Shutdown()
 {

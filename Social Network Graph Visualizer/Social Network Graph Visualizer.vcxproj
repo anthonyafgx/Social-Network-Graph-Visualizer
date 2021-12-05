@@ -151,6 +151,8 @@
     <ClCompile Include="src\Actors\Actor.cpp" />
     <ClCompile Include="src\GraphicsEngine.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\SDL2_gfxPrimitives.c" />
+    <ClCompile Include="src\SDL2_rotozoom.c" />
     <ClCompile Include="src\UI\ImGUI\imgui.cpp" />
     <ClCompile Include="src\UI\ImGUI\imgui_demo.cpp" />
     <ClCompile Include="src\UI\ImGUI\imgui_draw.cpp" />
@@ -180,6 +182,9 @@
     <ClInclude Include="src\Math.h" />
     <ClInclude Include="src\Actors\Actor.h" />
     <ClInclude Include="src\GraphicsEngine.h" />
+    <ClInclude Include="src\SDL2_gfxPrimitives.h" />
+    <ClInclude Include="src\SDL2_gfxPrimitives_font.h" />
+    <ClInclude Include="src\SDL2_rotozoom.h" />
     <ClInclude Include="src\UI\ImGUI\imconfig.h" />
     <ClInclude Include="src\UI\ImGUI\imgui.h" />
     <ClInclude Include="src\UI\ImGUI\imgui_impl_sdl.h" />

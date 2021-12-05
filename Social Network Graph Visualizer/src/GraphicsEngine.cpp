@@ -97,13 +97,13 @@ bool GraphicsEngine::Initialize()
 	}
 
 	// ImGUI
-	//mUI = new UserInterface(this);
+	mUI = new UserInterface(this);
 
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
+	//IMGUI_CHECKVERSION();
+	//ImGui::CreateContext();
 
-	ImGui_ImplSDL2_InitForSDLRenderer(mWindow);
-	ImGui_ImplSDLRenderer_Init(mRenderer);
+	//ImGui_ImplSDL2_InitForSDLRenderer(mWindow);
+	//ImGui_ImplSDLRenderer_Init(mRenderer);
 
 	LoadData();
 
@@ -123,7 +123,7 @@ void GraphicsEngine::RunLoop()
 void GraphicsEngine::Shutdown()
 {
 	UnloadData();
-	//delete mUI;
+	delete mUI;
 	IMG_Quit();
 	TTF_Quit();
 	SDL_DestroyWindow(mWindow);
@@ -302,6 +302,7 @@ void GraphicsEngine::ProcessInput()
 
 	while (SDL_PollEvent(&sdlEvent))
 	{
+		ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
 #ifdef MULTIPLE_WINDOWS
 		switch (sdlEvent.type)
 		{
@@ -327,13 +328,15 @@ void GraphicsEngine::ProcessInput()
 	}
 
 	// Process Input
-
 	const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
 
 	for (Actor* actor : mActors)
 	{
 		actor->ProcessInput(keyboardState);
 	}
+
+	// Update UI
+	mUI->Update();
 }
 
 void GraphicsEngine::UpdateGame()
@@ -387,6 +390,8 @@ void GraphicsEngine::GenerateOutput()
 		sprite->Draw(mRenderer);
 	}
 
+	mUI->Draw();
+
 	SDL_RenderPresent(mRenderer);
 }
 
@@ -397,16 +402,17 @@ void GraphicsEngine::LoadData()
 	mCamera = new Camera(this);
 	mGraph = new Graph(this);
 	
-	ParseJson(this, "json_data.json");
-	//mGraph->InsertNode(5, "user 5");
-	//mGraph->InsertNode(6, "user 6");
-	//mGraph->InsertNode(7, "user 7");
-	//mGraph->InsertNode(8, "user 8");
-	//mGraph->InsertNode(9, "user 9");
-	//mGraph->AddRelation(5, 6);
-	//mGraph->AddRelation(5, 7);
-	//mGraph->AddRelation(5, 8);
-	//mGraph->AddRelation(5, 9);
+	//ParseJson(this, "json_data.json");
+	mGraph->InsertNode(5, "user 5");
+	mGraph->InsertNode(6, "user 6");
+	mGraph->InsertNode(7, "user 7");
+	mGraph->InsertNode(8, "user 8");
+	mGraph->InsertNode(9, "user 9");
+	mGraph->AddRelation(5, 6);
+	mGraph->AddRelation(5, 7);
+	mGraph->AddRelation(5, 8);
+	mGraph->AddRelation(5, 9);
+	mGraph->AddRelation(8, 9);
 }
 
 void GraphicsEngine::UnloadData()

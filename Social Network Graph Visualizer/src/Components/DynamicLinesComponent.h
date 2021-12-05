@@ -12,5 +12,5 @@ public:
 	void Draw(SDL_Renderer* renderer) override;
 
 private:
-	
+	bool mAntialiasing;
 };

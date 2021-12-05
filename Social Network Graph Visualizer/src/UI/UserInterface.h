@@ -8,6 +8,7 @@ public:
 	~UserInterface();
 
 	void Update();
+	void Draw();
 
 	// Getters
 	SDL_Window* GetWindow() { return mWindow; }

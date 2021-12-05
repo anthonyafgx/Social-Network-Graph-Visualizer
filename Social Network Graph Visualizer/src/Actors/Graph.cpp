@@ -8,7 +8,8 @@
 // TO DO: Add an "Add Node" to Graph.cpp, which Node.cpp can call and add himself to Graph.
 
 Graph::Graph(GraphicsEngine* graphics) :
-	Actor(graphics)
+	Actor(graphics),
+	mHighlightTimeout(0.0f)
 {
 	;
 }
@@ -20,7 +21,18 @@ Graph::~Graph()
 
 void Graph::UpdateActor(float deltaTime)
 {
-	;
+	/* NODE HIGHLIGHTING */
+	if (mHighlightTimeout > 0.0f)
+	{
+		mHighlightTimeout -= deltaTime;
+		mHighlightTimeout = (mHighlightTimeout < 0.0f) ? 0.0f : mHighlightTimeout;	// clamp
+	}
+	else // end highlighting
+	{
+		StopAllHighlighting();
+	}
+
+	
 }
 
 void Graph::InsertNode(int id, std::string name)
@@ -71,6 +83,22 @@ void Graph::RemoveNode(int id)
 	// Destroy and Remove Node.
 	delete mNodes[id];
 	mNodes.erase(id);
+}
+
+bool Graph::VerifyNode(int id)
+{
+	StopAllHighlighting();
+	if (!mNodes[id])
+	{
+		std::cout << "INFO (VerifyNode): Node with ID: " << id << " does not exits.\n";
+		return false;
+	}
+	else
+	{
+		std::cout << "INFO (VerifyNode): Node with ID: " << id << " do exist. Currently highlighted.\n";
+		HighlightNode(id, Node::EColor::GREEN);
+		return true;
+	}
 }
 
 void Graph::AddRelation(int idA, int idB)
@@ -197,6 +225,25 @@ bool Graph::HaveRelation(Node* a, Node* b, bool print)
 	}
 }
 
+bool Graph::HighlightRelation(int idA, int idB)
+{
+	StopAllHighlighting();
+	if (HaveRelation(idA, idB, true))
+	{	
+		Node* nodeA = mNodes[idA];
+		Node* nodeB = mNodes[idB];
+		
+		// Highlight nodes for x secs
+		HighlightNode(idA, Node::EColor::GREEN);
+		HighlightNode(idB, Node::EColor::GREEN);
+		return true;
+	}
+	else
+	{
+		// Indicate nodes do not have relation.
+		;
+	}
+}
 
 std::vector<const Node*> Graph::FindPath(const Node* from, const Node* to)
 {
@@ -384,4 +431,32 @@ bool Graph::AreColliding(Node* a, Node* b)
 	float totalRadius = a->GetDiameter() / 2 + b->GetDiameter() / 2;
 
 	return vec.LengthSq() <= totalRadius * totalRadius;
+}
+
+void Graph::HighlightNode(int id, Node::EColor color, float time)
+{
+	Node* node = mNodes[id];
+
+	if (!node)
+	{
+		std::cout << "INFO (HighlightNode): Could not highlight node with ID " << id << " because it does not exists.\n";
+		return;
+	}
+	
+	// Timer
+	mHighlightTimeout = time;
+
+	// Highlight (while overriding Node's color)
+	mCurrentlyHighliting.emplace_back(node);	
+	node->SetColorOverride(true);
+	node->SetColor(color);
+}
+
+void Graph::StopAllHighlighting()
+{
+	while (!mCurrentlyHighliting.empty())
+	{
+		mCurrentlyHighliting.back()->SetColorOverride(false);
+		mCurrentlyHighliting.pop_back();
+	}
 }

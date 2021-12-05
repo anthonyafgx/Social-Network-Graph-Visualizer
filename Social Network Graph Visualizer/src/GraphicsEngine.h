@@ -73,6 +73,9 @@ private:
 	const int mWindowHeight;
 	TTF_Font* mFont;											//!< SDL Font
 
+	// UI
+	class UserInterface* mUI;
+
 	// Program Specific
 	class Mouse* mMouse;
 	class Camera* mCamera;
