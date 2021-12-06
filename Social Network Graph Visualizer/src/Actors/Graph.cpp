@@ -101,6 +101,14 @@ bool Graph::VerifyNode(int id)
 	}
 }
 
+void Graph::RemoveAllNodes()
+{
+	while (!mNodes.empty())
+	{
+		RemoveNode(mNodes.begin()->second->GetId());
+	}
+}
+
 void Graph::AddRelation(int idA, int idB)
 {
 	// Ids should be different
@@ -245,22 +253,72 @@ bool Graph::HighlightRelation(int idA, int idB)
 	}
 }
 
-std::vector<const Node*> Graph::FindPath(const Node* from, const Node* to)
+bool Graph::HighlightPath(int idFrom, int idTo)
 {
-	// TO DO: Check if nodes exist
+	Node* from = mNodes[idFrom];
+	Node* to = mNodes[idTo];
 
-	std::unordered_map<const Node*, const Node*> parentsMap;
-	std::vector<const Node*> path;
+	// Check if nodes exist
+	if (!(from && to))	// if one or both nodes == nullptr
+	{
+		std::cout << "INFO (Highlight Path): Cannot Find Path because one or both nodes do not exist.\n";
+		return false;
+	}
+
+	// Find Path
+	std::vector<Node*> path = FindPath(from, to);
+
+	if (path.size() > 0) // if path found
+	{
+		// Highligh middle nodes yellow
+		for (Node* node : path)
+		{
+			if (node == path.front())
+			{
+				// Highlight start node green
+				HighlightNode(path.front(), Node::EColor::GREEN);
+				continue;
+			}
+			if (node == path.back())
+			{
+				// Highlight end node red
+				HighlightNode(path.back(), Node::EColor::RED);
+				continue;
+			}
+
+			// Highlight middle nodes yellow
+			HighlightNode(node, Node::EColor::YELLOW);
+		}
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+std::vector<Node*> Graph::FindPath(Node* from, Node* to)
+{
+	// Check if nodes exist
+	if (!(from && to))	// if one or both nodes == nullptr
+	{
+		std::cout << "INFO (FindPath): Cannot Find Path because one or both nodes do not exist.\n";
+		return std::vector<Node*> {};
+	}
+
+
+	std::unordered_map<Node*, Node*> parentsMap;
+	std::vector<Node*> path;
 
 	if (BFS(to, from, parentsMap))
 	{
-		path = ReconstructPath(from, to, parentsMap);
+		path = ReconstructPath(to, from, parentsMap);
 		return path;
 	}
 	else
 	{
 		std::cout << "INFO: No path was found from Node address: " << from << " to Node address: " << to << std::endl;
-		return std::vector<const Node*> {};
+		return std::vector<Node*> {};
 	}
 }
 
@@ -271,9 +329,9 @@ std::vector<const Node*> Graph::FindPath(const Node* from, const Node* to)
 * @param parentsMap	Is a map where key is the node and the value is it's parent.
 * @return			Value indicating whether or not path from start to goal was found.
 */
-bool Graph::BFS(const Node* start, const Node* goal, std::unordered_map<const Node*, const Node*>& parentsMap)
+bool Graph::BFS(Node* start, Node* goal, std::unordered_map<Node*, Node*>& parentsMap)
 {
-	std::queue<const Node*> queue;	//< queue of Nodes that will be searched.
+	std::queue<Node*> queue;	//< queue of Nodes that will be searched.
 	bool foundPath = false;			//< indicates if a path from start to goal was found.
 
 	queue.emplace(start);
@@ -281,9 +339,7 @@ bool Graph::BFS(const Node* start, const Node* goal, std::unordered_map<const No
 	while (!queue.empty())
 	{
 		// STEP 1: Analize node in queue and delete from queue
-		const Node* currentNode = queue.front();
-
-		// dequeue current Node
+		Node* currentNode = queue.front();
 		queue.pop();
 
 		if (currentNode == goal)
@@ -293,7 +349,7 @@ bool Graph::BFS(const Node* start, const Node* goal, std::unordered_map<const No
 		}
 
 		// STEP 2: Enqueue current node's adjacent nodes and add to parentsMap
-		for (const Node* next : currentNode->mAdjacent)
+		for (Node* next : currentNode->mAdjacent)
 		{
 			// Enqueue {next} only if it has not been enqueued before.
 			/* NOTE: Already visited Nodes have a non-null value stored in parentsMap
@@ -321,25 +377,28 @@ bool Graph::BFS(const Node* start, const Node* goal, std::unordered_map<const No
 *
 * IMPORTANT NOTE:	This method returns the path in backwards order (from goal to start). If you want the path from
 *					goal to start, do the BFS from goal to start, so this methods returns the path from start to goal.
+*
+* IMPORTANT NOTE 2: You must enter the parameters in the same order as BFS
+*					Example: If you entered BFS(start, goal), you must enter ReconstructPath(start,goal) and viceversa.
 */
-std::vector<const Node*> Graph::ReconstructPath(const Node* start, const Node* goal, std::unordered_map<const Node*, const Node*>& parentsMap)
+std::vector<Node*> Graph::ReconstructPath(Node* start, Node* goal, std::unordered_map<Node*, Node*>& parentsMap)
 {
-	std::vector<const Node*> path;
+	std::vector<Node*> path;
 
-	// Navigate the path down to start, from goal.
+	// Navigate the path starting from goal down to start.
 	for (auto node = goal; node != nullptr; node = parentsMap[node])
 	{
 		path.emplace_back(node);
 	}
 
-	if (path.back() == goal)
+	if (path.front() == goal && path.back() == start)
 	{
 		return path;
 	}
 	else
 	{
 		std::cout << "INFO: No path was found from Node address: " << start << " to Node address: " << goal << std::endl;
-		return std::vector<const Node*> {};
+		return std::vector<Node*> {};
 	}
 }
 
@@ -433,13 +492,11 @@ bool Graph::AreColliding(Node* a, Node* b)
 	return vec.LengthSq() <= totalRadius * totalRadius;
 }
 
-void Graph::HighlightNode(int id, Node::EColor color, float time)
+void Graph::HighlightNode(Node* node, Node::EColor color, float time)
 {
-	Node* node = mNodes[id];
-
 	if (!node)
 	{
-		std::cout << "INFO (HighlightNode): Could not highlight node with ID " << id << " because it does not exists.\n";
+		std::cout << "INFO (HighlightNode): Could not highlight node because it does not exists.\n";
 		return;
 	}
 	
@@ -450,6 +507,11 @@ void Graph::HighlightNode(int id, Node::EColor color, float time)
 	mCurrentlyHighliting.emplace_back(node);	
 	node->SetColorOverride(true);
 	node->SetColor(color);
+}
+
+void Graph::HighlightNode(int id, Node::EColor color, float time)
+{
+	HighlightNode(mNodes[id], color, time);
 }
 
 void Graph::StopAllHighlighting()

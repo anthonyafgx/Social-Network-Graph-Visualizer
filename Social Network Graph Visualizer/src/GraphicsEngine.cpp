@@ -43,7 +43,7 @@ bool GraphicsEngine::Initialize()
 	// Create Window
 	SDL_WindowFlags windowFlags = (SDL_WindowFlags)(SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI);
 	mWindow = SDL_CreateWindow(
-		"Dev GraphicsEngine - anthonyafgx studios",
+		"Social Network Graph Visualizer - anthonyafgx studios",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		mWindowWidth,
@@ -402,17 +402,17 @@ void GraphicsEngine::LoadData()
 	mCamera = new Camera(this);
 	mGraph = new Graph(this);
 	
-	//ParseJson(this, "json_data.json");
-	mGraph->InsertNode(5, "user 5");
-	mGraph->InsertNode(6, "user 6");
-	mGraph->InsertNode(7, "user 7");
-	mGraph->InsertNode(8, "user 8");
-	mGraph->InsertNode(9, "user 9");
-	mGraph->AddRelation(5, 6);
-	mGraph->AddRelation(5, 7);
-	mGraph->AddRelation(5, 8);
-	mGraph->AddRelation(5, 9);
-	mGraph->AddRelation(8, 9);
+	ParseJson(this, "json_data.json");
+	//mGraph->InsertNode(5, "user 5");
+	//mGraph->InsertNode(6, "user 6");
+	//mGraph->InsertNode(7, "user 7");
+	//mGraph->InsertNode(8, "user 8");
+	//mGraph->InsertNode(9, "user 9");
+	//mGraph->AddRelation(5, 6);
+	//mGraph->AddRelation(5, 7);
+	//mGraph->AddRelation(5, 8);
+	//mGraph->AddRelation(5, 9);
+	//mGraph->AddRelation(8, 9);
 }
 
 void GraphicsEngine::UnloadData()

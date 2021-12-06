@@ -18,6 +18,7 @@ public:
 	void InsertNode(int id, std::string name);
 	void RemoveNode(int id);
 	bool VerifyNode(int id);
+	void RemoveAllNodes();
 	
 	void AddRelation(int idA, int idB);
 	void RemoveRelation(int idA, int idB);
@@ -25,16 +26,18 @@ public:
 	bool HaveRelation(class Node* a, class Node* b, bool print = true);
 	bool HighlightRelation(int idA, int idB); //< Graphically show if relation exists
 
+	bool HighlightPath(int idFrom, int idTo); //< Graphically Find Path
+
 	// Getters / Setters
 	const std::unordered_map<int, class Node*>& GetNodes() { return mNodes; }
 
 
-	std::vector<const class Node*> FindPath(const class Node* from, const class Node* to);
+	std::vector<class Node*> FindPath(class Node* from, class Node* to);
 
 private:
 	// Graph Internal Helper Methods
-	bool BFS(const class Node* start, const class Node* goal, std::unordered_map<const Node*, const Node*>& parentsMap);
-	std::vector<const Node*> ReconstructPath(const Node* start, const Node* goal ,std::unordered_map<const Node*, const Node*>& parentsMap);
+	bool BFS(class Node* start, class Node* goal, std::unordered_map<Node*, Node*>& parentsMap);
+	std::vector<Node*> ReconstructPath(Node* start, Node* goal ,std::unordered_map<Node*, Node*>& parentsMap);
 
 	// Engine Helper Methods
 	void RepositionNode(class Node* a, class Node* b);
@@ -42,6 +45,7 @@ private:
 	bool AreColliding(Node* a, Node* b);	// true if [a] and [b] are colliding.
 
 	// Highlight manager (time sets global highlighting timer)
+	void HighlightNode(Node* node, Node::EColor color, float time = 3.0f);
 	void HighlightNode(int id, Node::EColor color, float time = 3.0f);
 	void StopAllHighlighting();
 

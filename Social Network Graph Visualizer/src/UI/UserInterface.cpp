@@ -161,6 +161,32 @@ void UserInterface::Update()
 
 		ImGui::TreePop();
 	}
+
+	if (ImGui::TreeNode("Encontrar Camino"))
+	{
+		ImGui::PushItemWidth(32);
+		static int idA = 0; ImGui::InputInt("ID A", &idA, 0);
+		ImGui::SameLine();
+		static int idB = 0; ImGui::InputInt("ID B", &idB, 0);
+		ImGui::PopItemWidth();
+
+		if (ImGui::Button("Mostrar"))
+		{
+			mGraphics->GetGraph()->HighlightPath(idA, idB);
+		}
+
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Botones Peligrosos"))
+	{
+		if (ImGui::Button("Remover todos los nodos"))
+		{
+			mGraphics->GetGraph()->RemoveAllNodes();
+		}
+
+		ImGui::TreePop();
+	}
 	
 
 	ImGui::End();
