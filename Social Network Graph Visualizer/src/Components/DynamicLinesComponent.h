@@ -11,4 +11,7 @@ public:
 
 	void Draw(SDL_Renderer* renderer) override;
 
+private:
+	const SDL_Color mBlack;
+	const SDL_Color mHighlight;
 };

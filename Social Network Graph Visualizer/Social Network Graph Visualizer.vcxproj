@@ -161,6 +161,7 @@
     <ClCompile Include="src\UI\UserInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\Actors\Graph.h" />
     <ClInclude Include="src\Actors\Mouse.h" />
     <ClInclude Include="src\Actors\Node.h" />
@@ -192,9 +193,15 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\255.png" />
+    <Image Include="Assets\Icon\icon.ico" />
+    <Image Include="Assets\Icon\icon.png" />
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="json_data.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

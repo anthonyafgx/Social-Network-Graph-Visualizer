@@ -18,19 +18,20 @@ public:
 	void InsertNode(int id, std::string name);
 	void RemoveNode(int id);
 	bool VerifyNode(int id);
-	void RemoveAllNodes();
-	
 	void AddRelation(int idA, int idB);
 	void RemoveRelation(int idA, int idB);
 	bool HaveRelation(int idA, int idB, bool print = true);
 	bool HaveRelation(class Node* a, class Node* b, bool print = true);
-	bool HighlightRelation(int idA, int idB); //< Graphically show if relation exists
+	void HighlightSuggestions(int id);
 
+	// Extra
+	bool HighlightRelation(int idA, int idB); //< Graphically show if relation exists
 	bool HighlightPath(int idFrom, int idTo); //< Graphically Find Path
+	void RemoveAllNodes();
 
 	// Getters / Setters
 	const std::unordered_map<int, class Node*>& GetNodes() { return mNodes; }
-
+	const char* GetFeedback() { return mFeedback.c_str(); }
 
 	std::vector<class Node*> FindPath(class Node* from, class Node* to);
 
@@ -55,4 +56,5 @@ private:
 private:
 	float mHighlightTimeout;				//< Time that nodes will be highlighted during HighlightRelation()
 	std::vector<Node*> mCurrentlyHighliting;//< Nodes that are being highlighted by graph
+	std::string mFeedback;					//< feedback that will be returned to the GUI
 };

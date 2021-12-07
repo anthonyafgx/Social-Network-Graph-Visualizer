@@ -3,9 +3,12 @@
 #include "../Actors/Node.h"
 
 DynamicLinesComponent::DynamicLinesComponent(Node* owner, int drawOrder)
-	: SpriteComponent(owner, drawOrder)
+	: SpriteComponent(owner, drawOrder),
+	mBlack(SDL_Color{ 100, 100, 100, 255 }),
+	mHighlight(mBlack) // < Currently disabled
+	//mHighlight(SDL_Color{ 250, 151, 140, 255 }) 
 {
-	
+
 }
 
 void DynamicLinesComponent::Draw(SDL_Renderer* renderer)
@@ -22,7 +25,21 @@ void DynamicLinesComponent::Draw(SDL_Renderer* renderer)
 	{
 		Vector2D<float> adjacentRelativePos = adjacent->GetPosition() - adjacent->GetGraphicsEngine()->GetCameraPos();
 
-		SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
+		// Determine color if being highlighted
+		Node::EColor ownerColor = mOwner->GetColor();
+		Node::EColor adjacentColor = adjacent->GetColor();
+		
+		if ((ownerColor == Node::EColor::RED || ownerColor == Node::EColor::YELLOW || ownerColor == Node::EColor::GREEN)
+			&&
+			(adjacentColor == Node::EColor::RED || adjacentColor == Node::EColor::YELLOW || adjacentColor == Node::EColor::GREEN))
+		{
+			SDL_SetRenderDrawColor(renderer, mHighlight.r, mHighlight.g, mHighlight.b, 255);
+		}
+		else
+		{
+			SDL_SetRenderDrawColor(renderer, mBlack.r, mBlack.g, mBlack.b, 255);
+		}
+		
 		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
 		// Only run if antialias is off or if there is not success
 		SDL_RenderDrawLineF(renderer,

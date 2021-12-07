@@ -159,6 +159,17 @@ void UserInterface::Update()
 			mGraphics->GetGraph()->HighlightRelation(idA, idB);
 		}
 
+		ImGui::Separator();
+
+		ImGui::Text("Sugerir Relaciones");
+		ImGui::PushItemWidth(32);
+		static int idS = 0; ImGui::InputInt("ID", &idS, 0);
+		ImGui::PopItemWidth();
+		if (ImGui::Button("Sugerir"))
+		{
+			mGraphics->GetGraph()->HighlightSuggestions(idS);
+		}
+
 		ImGui::TreePop();
 	}
 
@@ -187,9 +198,20 @@ void UserInterface::Update()
 
 		ImGui::TreePop();
 	}
-	
 
-	ImGui::End();
+	ImGui::End();	// Control de Grafo
+
+
+	ImGuiWindowFlags overlayFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize;
+	ImGui::SetNextWindowSize(ImVec2(900, 32));
+	ImGui::SetNextWindowBgAlpha(0.75f);
+	ImGui::Begin("Information Overlay", nullptr, overlayFlags);
+	
+	ImGui::Text("Ultimo mensaje:	");
+	ImGui::SameLine();
+	ImGui::Text(mGraphics->GetGraph()->GetFeedback());
+
+	ImGui::End(); // Information Overlay
 
 	// Rendering Code
 	//ImGui::Render();
