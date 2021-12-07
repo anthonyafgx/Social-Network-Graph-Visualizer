@@ -336,3 +336,6 @@ ASALocalRun/
 # SVG and ico
 *.svg
 *.ico
+
+#powerpoint
+*.pptm
