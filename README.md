@@ -1,7 +1,19 @@
-# Social-Network-Graph-Visualizer
+### Features
+ - Friendly user interface with features such as:
+	 - Insertion and deletion of nodes.
+	 - Creation and removal of relations (edges).
+	 - Nodes existence verification.
+	 - Relation existence validation.
+ - Graph representation with:
+	 - Anti-aliased nodes.
+	 - Smooth physics-based camera (pan & zoom) controlled via keyboard.
+	 - Advanced node highlighting system, with colors depending on the situation.
+	 - Shortest-path finding.
 
-This proyect consists of a Social-Network Graph Visualizer with some runtime-controls.
-[README IN PROGRESS]
+# Social Network Graph Visualizer
+![App Icon](https://i.imgur.com/bhJ7oOi.png)
+
+
 
 ## Screenshots
 _5/Dec/2021 v0.1_: Graphical User Interface and Node 9 with it's adjacent nodes highlighted.
